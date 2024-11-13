@@ -1,6 +1,5 @@
 <?php
 namespace App\Http\Controllers;
-
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -33,26 +32,12 @@ class AuthController extends Controller
         ]);
     }
 
+
     public function showRegistrationForm()
     {
         return view('auth.register');
     }
-    // Handle registration form submission
-    public function register(Request $request)
-{
-    $validated = $request->validate([
-        'phone' => 'required|string|max:15',
-        'first_name' => 'required|string|max:255',
-        'last_name' => 'required|string|max:255',
-        'email' => 'required|string|email|max:255|unique:users',
-        'date_of_birth' => 'required|date',
-        'family_code' => 'nullable|string|max:50',
-        'role' => 'required|string|in:Admin,Patient,Family Member,Supervisor,Doctor,Caregiver',
-        'relation_to_emergency' => 'nullable|string|max:255',
-        'emergency_contact' => 'nullable|string|max:15',
-        'password' => 'required|string|min:8|confirmed',
-    ]);
-
+    public function register(Request $request){
     $user = User::create([
         'first_name' => $request->first_name,
         'last_name' => $request->last_name,
@@ -65,8 +50,8 @@ class AuthController extends Controller
         'relation_to_emergency' => $request->relation_to_emergency,
         'emergency_contact' => $request->emergency_contact
     ]);
-
     auth()->login($user);
+
     return redirect()->route('login')->with('success', 'Registration successful!');
 }
 }
