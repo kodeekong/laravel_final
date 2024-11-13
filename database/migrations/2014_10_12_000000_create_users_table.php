@@ -16,17 +16,16 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('email')->unique();
-            $table->string('phone')->nullable();
-            $table->date('date_of_birth')->nullable();
+            $table->string('phone', 15);
+            $table->date('date_of_birth');
             $table->string('password');
-            $table->string('family_code')->nullable();
-            $table->enum('role', ['admin', 'patient', 'doctor', 'supervisor', 'caregiver', 'family_member']);
-            $table->string('relation_to_emergency')->nullable();
-            $table->string('emergency_contact')->nullable();
+            $table->string('family_code', 50)->nullable();
+            $table->enum('role', ['Admin', 'Patient', 'Family Member', 'Supervisor', 'Doctor', 'Caregiver']);
+            $table->string('relation_to_emergency', 255)->nullable();
+            $table->string('emergency_contact', 15)->nullable();
             $table->timestamps();
         });
     }
-
 
     /**
      * Reverse the migrations.
