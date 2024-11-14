@@ -18,19 +18,25 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
+    public function showDashboard()
+    {
+        return view('auth.dashboard');
+    }
+
     // Handle login form submission
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
-
+    
         if (Auth::attempt($credentials)) {
-            return redirect()->intended('dashboard');
+            return redirect()->route('dashboard')->with('success', 'Log in successful!');
         }
-
+    
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ]);
     }
+    
 
 
     public function showRegistrationForm()

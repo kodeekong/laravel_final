@@ -117,7 +117,7 @@
 
         <div class="form-group">
             <label for="relation">Relation to Emergency Contact:</label>
-            <input type="text" id="relation" name="relation">
+            <input type="text" id="relation_to_emergency" name="relation_to_emergency">
         </div>
 
         <div class="form-group">
@@ -130,7 +130,6 @@
             <input type="password" id="password" name="password" required>
         </div>
 
-        <!-- Patient-specific fields, shown only if role is "Patient" -->
         <div id="patient-info" class="patient-info">
             <h3>Additional Information for Patient</h3>
             <div class="form-group">
