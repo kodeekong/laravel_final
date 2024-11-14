@@ -111,6 +111,13 @@
         </div>
 
         <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+
+        <div id="patient-info" class="patient-info">
+            <h3>Additional Information for Patient</h3>
+            <div class="form-group">
             <label for="family_code">Family Code (For Patient Family Member):</label>
             <input type="text" id="family_code" name="family_code">
         </div>
@@ -124,14 +131,16 @@
             <label for="emergency_contact">Emergency Contact:</label>
             <input type="tel" id="emergency_contact" name="emergency_contact">
         </div>
-
-        <div class="form-group">
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
+        <div class="form-buttons">
+            <button type="submit" class="ok-button">Register</button>
         </div>
+    </form>
+</div>
 
-        <div id="patient-info" class="patient-info">
-            <h3>Additional Information for Patient</h3>
+</body>
+</html>
+
+<!--    FOR ADMIN APPROVAL
             <div class="form-group">
                 <label for="group">Group:</label>
                 <input type="text" id="group" name="group">
@@ -145,12 +154,4 @@
                 <input type="date" id="admission_date" name="admission_date">
             </div>
         </div>
-
-        <div class="form-buttons">
-            <button type="submit" class="ok-button">Register</button>
-        </div>
-    </form>
-</div>
-
-</body>
-</html>
+-->
