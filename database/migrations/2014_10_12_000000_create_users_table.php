@@ -20,7 +20,7 @@ return new class extends Migration
             $table->date('date_of_birth');
             $table->string('password');
             $table->string('family_code', 50)->nullable();
-            $table->enum('role', ['Admin', 'Patient', 'Family Member', 'Supervisor', 'Doctor', 'Caregiver']);
+            $table->enum('role', 50);
             $table->string('relation_to_emergency', 255)->nullable();
             $table->string('emergency_contact', 15)->nullable();
             $table->timestamps();
