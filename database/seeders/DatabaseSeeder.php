@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -12,11 +14,28 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+        // Create permissions
+        Permission::firstOrCreate(['name' => 'view missed activities']);
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        // Create roles
+        $adminRole = Role::firstOrCreate(['name' => 'admin']);
+        $supervisorRole = Role::firstOrCreate(['name' => 'supervisor']);
+
+        // Assign permissions to roles
+        $adminRole->givePermissionTo('view missed activities');
+        $supervisorRole->givePermissionTo('view missed activities');
+
+        // Create users and assign roles
+        $adminUser = User::firstOrCreate(
+            ['email' => 'admin@example.com'], 
+            ['name' => 'Admin User', 'password' => bcrypt('password')]
+        );
+        $adminUser->assignRole($adminRole);
+
+        $supervisorUser = User::firstOrCreate(
+            ['email' => 'supervisor@example.com'], 
+            ['name' => 'Supervisor User', 'password' => bcrypt('password')]
+        );
+        $supervisorUser->assignRole($supervisorRole);
     }
 }
