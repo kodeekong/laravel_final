@@ -20,6 +20,11 @@ Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
 
 
+Route::get('/home', [AuthController::class, 'showHome'])->name('home');
+Route::post('/home', [AuthController::class, 'home']);
+
+
+
 Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
 

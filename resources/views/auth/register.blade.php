@@ -140,7 +140,7 @@
 </body>
 </html>
 
-<!--    FOR ADMIN APPROVAL
+<!--    FOR ADMIN
             <div class="form-group">
                 <label for="group">Group:</label>
                 <input type="text" id="group" name="group">

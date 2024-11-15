@@ -10,26 +10,23 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function showHome()
-    {
+    public function showHome(){
         return view('auth.home');
     }
 
-    public function showLoginForm()
-    {
+    public function showLoginForm(){
         return view('auth.login');
     }
 
-    // Handle login form submission
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
-
         if (Auth::attempt($credentials)) {
             // Redirect to dashboard after successful login
             return redirect()->route('dashboard')->with('success', 'Log in successful!');
         }
-
+            return redirect()->route('dashboard')->with('success', 'Log in successful!');
+        }
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ]);
@@ -69,4 +66,3 @@ class AuthController extends Controller
 }
 
 ?>
-
