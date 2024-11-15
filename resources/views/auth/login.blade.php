@@ -63,9 +63,9 @@
 
 <div class="form-container">
     <h2>Log in</h2>
-    <form action="/login" method="POST">
-        <!-- Add CSRF token for Laravel form submission -->
-        <input type="hidden" name="_token">
+    <form action="{{ route('login') }}" method="POST">
+        @csrf
+        <!-- The CSRF token will be automatically added with @csrf directive -->
 
         <div class="form-group">
             <label for="email">Email:</label>

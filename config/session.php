@@ -19,6 +19,7 @@ return [
     */
 
     'driver' => env('SESSION_DRIVER', 'file'),
+    'expire_on_close' => false,
 
     /*
     |--------------------------------------------------------------------------
