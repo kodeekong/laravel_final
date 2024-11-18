@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminReportController;
+use App\Http\Controllers\PatientController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -32,3 +33,6 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::get('/admin/missed-activities', [AdminReportController::class, 'index'])
     ->name('admin.report.index')
     ->middleware(['role:admin|supervisor']);  // Apply middleware for roles
+
+    Route::get('/patients/create', [PatientController::class, 'create'])->name('patients.create');
+    Route::post('/patients/store', [PatientController::class, 'store'])->name('patients.store');
