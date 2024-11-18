@@ -4,13 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <!-- Add any stylesheets or meta tags here -->
 </head>
 <body>
     <div class="container">
-        <h1>Welcome to your Dashboard, {{ $user->first_name }}!</h1>
 
-        <p>You are logged in as: {{ $user->role }}</p>
+        <h1>Welcome to your Dashboard, {{ auth()->user()->first_name }}!</h1>
+
+        <p>You are logged in as: {{ auth()->user()->role }}</p>
+
+        @if(auth()->check() && auth()->user()->role === 'Admin')
+            <a href="{{ route('admin.approvals') }}" class="btn btn-primary">Go to Approval Page</a>
+        @endif
 
         <form action="{{ route('logout') }}" method="POST">
             @csrf
