@@ -2,6 +2,8 @@
 
 return [
 
+    'redirect_to' => '/login', // Set to the login page
+
     /*
     |--------------------------------------------------------------------------
     | Authentication Defaults

@@ -8,7 +8,6 @@
 </head>
 <body>
 
-    <!-- Navigation Bar (Optional, can be customized) -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">Admin Dashboard</a>
     </nav>
@@ -16,7 +15,6 @@
     <div class="container mt-4">
         <h1 class="text-center">Missed Activities Report</h1>
 
-        <!-- Date Filter Form -->
         <form method="GET" action="{{ route('admin.report.index') }}" class="mb-4">
             <div class="form-row">
                 <div class="col-md-3">
@@ -29,7 +27,6 @@
             </div>
         </form>
 
-        <!-- Check if there are any missed activities -->
         @if ($missedActivities->isEmpty())
             <div class="alert alert-warning text-center">
                 No missed activities found.

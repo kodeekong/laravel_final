@@ -18,30 +18,34 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
+    public function showRegistrationForm()
+    {
+        return view('auth.register');
+    }
+
+    public function showDashboard()
+    {
+        $user = auth()->user(); 
+        return view('dashboard', compact('user')); // Pass user data to the view
+    }
+
+
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
-            // Redirect to dashboard after successful login
             return redirect()->route('dashboard')->with('success', 'Log in successful!');
         }
-            return redirect()->route('dashboard')->with('success', 'Log in successful!');
-        }
+    
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ]);
     }
 
-
     public function logout()
     {
-        Auth::logout();  // Log the user out
+        Auth::logout();  
         return redirect()->route('login')->with('success', 'You have been logged out successfully.');
-    }
-
-    public function showRegistrationForm()
-    {
-        return view('auth.register');
     }
 
     public function register(Request $request)
