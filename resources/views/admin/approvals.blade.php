@@ -16,6 +16,8 @@
             </div>
         @endif
 
+        <a href="{{ route('dashboard') }}" class="btn btn-primary mb-3">Back to Dashboard</a>
+
         <table class="table">
             <thead>
                 <tr>
