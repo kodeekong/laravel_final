@@ -1,4 +1,3 @@
-<!-- resources/views/admin/approvals.blade.php -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,14 +34,15 @@
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->phone }}</td>
                         <td>
-                            <form action="{{ route('admin.approvals.approve', $user) }}" method="POST" style="display:inline-block;">
-                                @csrf
-                                <button type="submit" class="btn btn-success">Approve</button>
-                            </form>
-                            <form action="{{ route('admin.approvals.reject', $user) }}" method="POST" style="display:inline-block;">
-                                @csrf
-                                <button type="submit" class="btn btn-danger">Reject</button>
-                            </form>
+                        <form action="{{ route('admin.approvals.approve', $user) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-success">Approve</button>
+                        </form>
+                        <form action="{{ route('admin.approvals.reject', $user) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-danger">Reject</button>
+                        </form>
+
                         </td>
                     </tr>
                 @empty
