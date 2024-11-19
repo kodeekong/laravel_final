@@ -14,7 +14,10 @@
 
         @if(auth()->check() && auth()->user()->role === 'Admin')
             <a href="{{ route('admin.approvals') }}" class="btn btn-primary">Go to Approval Page</a>
-        @endif
+            @endif
+        @if(auth()->check() && auth()->user()->role === 'Admin')
+            <a href="{{ route('admin.roles.create') }}" class="btn btn-primary">Create Roles</a>
+            @endif
 
         <form action="{{ route('logout') }}" method="POST">
             @csrf
