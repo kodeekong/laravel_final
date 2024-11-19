@@ -4,27 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\MissedActivity;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class AdminReportController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('role:admin|supervisor'); 
+        $this->middleware(['auth', 'role:admin|supervisor']);
     }
 
-    public function index(Request $request)
+    // Show the missed activities report
+    public function showReport(Request $request)
     {
         $date = $request->input('date');
-        
-        $query = MissedActivity::query();
-
-        if ($date) {
-            $query->whereDate('appointment_date', $date);
-        }
-
-        $missedActivities = $query->get();
+        $missedActivities = MissedActivity::when($date, function ($query) use ($date) {
+            return $query->whereDate('created_at', $date);
+        })->get();
 
         return view('admin.report', compact('missedActivities'));
     }
 }
+
