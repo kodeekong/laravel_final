@@ -13,7 +13,14 @@
 
         <p>You are logged in as: {{ auth()->user()->role }}</p>
 
-        <!-- For Admin and Supervisor only -->
+        @if(auth()->check() && auth()->user()->role === 'Admin')
+            <a href="{{ route('admin.approvals') }}" class="btn btn-primary">Go to Approval Page</a>
+            @endif
+        @if(auth()->check() && auth()->user()->role === 'Admin')
+            <a href="{{ route('admin.roles.create') }}" class="btn btn-primary">Create Roles</a>
+            @endif
+
+<!-- For Admin and Supervisor only -->
         @if(auth()->check() && (auth()->user()->role === 'Admin' || auth()->user()->role === 'Supervisor'))
             <div class="mb-4">
                 <a href="{{ route('admin.approvals') }}" class="btn btn-primary">Go to Approval Page</a>

@@ -9,14 +9,25 @@ use Illuminate\Support\Facades\Auth;
 
 class RoleMiddleware
 {
-    public function handle($request, Closure $next, $roles)
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @param  string  $roles
+     * @return \Illuminate\Http\Response
+     */
+    public function handle(Request $request, Closure $next, $roles)
     {
+        // Allow for multiple roles separated by commas
         $rolesArray = explode(',', $roles);
 
+        // Check if the user is authenticated and has a valid role
         if (Auth::check() && in_array(Auth::user()->role, $rolesArray)) {
-            return $next($request);
+            return $next($request);  // Proceed with the request if the role matches
         }
 
-        return redirect('/')->with('error', 'Access Denied');
+        // Redirect to home if the user doesn't have the correct role
+        return redirect()->route('home')->with('error', 'You do not have permission to access this page.');
     }
 }
