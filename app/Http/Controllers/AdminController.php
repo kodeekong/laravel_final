@@ -18,6 +18,7 @@ class AdminController extends Controller
 }
 
 
+
     public function approveUser(User $user)
 {
     // Debug: Check if the User model is being received
