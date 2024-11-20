@@ -18,7 +18,7 @@ Route::get('/', function () {
 // Authentication routes (not protected by auth)
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
-Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Route to the dashboard, protected by 'auth' middleware (accessible only to logged-in users)
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
