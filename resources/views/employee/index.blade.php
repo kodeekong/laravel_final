@@ -2,64 +2,64 @@
 
 @section('content')
 <div class="container">
-    <h1>Employee</h1>
+    <h1>Employees</h1>
+
+    <!-- Success Message -->
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
 
     <!-- Search Form -->
     <form method="GET" action="{{ route('employees.index') }}">
-        <div class="form-group">
-            <label for="search_id">Emp ID:</label>
-            <input type="text" name="search_id" id="search_id" class="form-control" value="{{ request('search_id') }}">
-        </div>
-        <div class="form-group">
-            <label for="search_name">Name:</label>
-            <input type="text" name="search_name" id="search_name" class="form-control" value="{{ request('search_name') }}">
-        </div>
-        <div class="form-group">
-            <label for="search_role">Role:</label>
-            <input type="text" name="search_role" id="search_role" class="form-control" value="{{ request('search_role') }}">
-        </div>
-        <div class="form-group">
-            <label for="search_salary">Salary:</label>
-            <input type="text" name="search_salary" id="search_salary" class="form-control" value="{{ request('search_salary') }}">
+        <div class="mb-3">
+            <input type="text" name="search" class="form-control" placeholder="Search by Name, Role, or Employee ID" value="{{ request('search') }}">
         </div>
         <button type="submit" class="btn btn-primary">Search</button>
     </form>
 
-    <!-- Employee Table -->
+    <!-- Employees Table -->
     <table class="table mt-4">
         <thead>
             <tr>
-                <th>ID</th>
+                <th>Employee ID</th>
                 <th>Name</th>
                 <th>Role</th>
                 <th>Salary</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($employees as $employee)
+            @forelse ($employees as $employee)
                 <tr>
-                    <td>{{ $employee->emp_id }}</td>
-                    <td>{{ $employee->name }}</td>
+                    <td>{{ $employee->employee_id }}</td>
+                    <td>{{ $employee->user->first_name }} {{ $employee->user->last_name }}</td>
                     <td>{{ $employee->role }}</td>
-                    <td>{{ $employee->salary }}</td>
+                    <td>${{ number_format($employee->salary, 2) }}</td>
                 </tr>
-            @endforeach
+            @empty
+                <tr>
+                    <td colspan="4">No employees found.</td>
+                </tr>
+            @endforelse
         </tbody>
     </table>
 
     <!-- Update Salary Form -->
-    <form method="POST" action="{{ route('employees.updateSalary') }}">
+    <h3>Update Salary</h3>
+    <form method="POST" action="{{ route('employees.update-salary') }}">
         @csrf
-        <div class="form-group">
-            <label for="emp_id">Emp ID:</label>
-            <input type="text" name="emp_id" id="emp_id" class="form-control">
+        <div class="row g-3">
+            <div class="col-md-4">
+                <label for="emp_id" class="form-label">Employee ID</label>
+                <input type="text" name="emp_id" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label for="new_salary" class="form-label">New Salary</label>
+                <input type="number" name="new_salary" class="form-control" step="0.01" required>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="new_salary">New Salary:</label>
-            <input type="text" name="new_salary" id="new_salary" class="form-control">
-        </div>
-        <button type="submit" class="btn btn-success">OK</button>
-        <button type="reset" class="btn btn-danger">Cancel</button>
+        <button type="submit" class="btn btn-success mt-3">Update Salary</button>
     </form>
 </div>
 @endsection

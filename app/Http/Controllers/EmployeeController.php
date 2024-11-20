@@ -2,55 +2,43 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Employees;
 use Illuminate\Http\Request;
-use App\Models\Employee;
 
 class EmployeeController extends Controller
 {
-    /**
-     * Display the list of employees.
-     */
+    // Show the employees page
     public function index(Request $request)
     {
-        // Fetch employees based on search filters
-        $query = Employee::query();
+        // Fetch employees with search filters if provided
+        $query = Employee::with('user'); // Fetch the related user data
 
-        if ($request->has('search_id')) {
-            $query->where('emp_id', $request->input('search_id'));
-        }
-        if ($request->has('search_name')) {
-            $query->where('name', 'like', '%' . $request->input('search_name') . '%');
-        }
-        if ($request->has('search_role')) {
-            $query->where('role', 'like', '%' . $request->input('search_role') . '%');
-        }
-        if ($request->has('search_salary')) {
-            $query->where('salary', $request->input('search_salary'));
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $query->where('employee_id', 'like', "%$search%")
+                  ->orWhere('role', 'like', "%$search%")
+                  ->orWhereHas('user', function ($q) use ($search) {
+                      $q->where('first_name', 'like', "%$search%")
+                        ->orWhere('last_name', 'like', "%$search%");
+                  });
         }
 
         $employees = $query->get();
 
-        return view('employees.index', compact('employees'));
+        return view('employee.index', compact('employees'));
     }
 
-    /**
-     * Update the salary of an employee.
-     */
+    // Update employee salary
     public function updateSalary(Request $request)
     {
         $request->validate([
-            'emp_id' => 'required|exists:employees,emp_id',
+            'emp_id' => 'required|exists:employees,employee_id',
             'new_salary' => 'required|numeric|min:0',
         ]);
 
-        $employee = Employee::where('emp_id', $request->input('emp_id'))->first();
-
-        // Only allow Admin to update salaries
-        if (auth()->user()->role !== 'Admin') {
-            return redirect()->route('employees.index')->with('error', 'Unauthorized action.');
-        }
-
-        $employee->update(['salary' => $request->input('new_salary')]);
+        $employee = Employee::where('employee_id', $request->input('emp_id'))->firstOrFail();
+        $employee->salary = $request->input('new_salary');
+        $employee->save();
 
         return redirect()->route('employees.index')->with('success', 'Salary updated successfully.');
     }
