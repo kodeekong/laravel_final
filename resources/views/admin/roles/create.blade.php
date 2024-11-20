@@ -18,6 +18,8 @@
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
+    <a href="{{ route('dashboard') }}" class="btn btn-primary mb-3">Back to Dashboard</a><br>
+
     <form method="POST" action="{{ route('admin.roles.store') }}">
         @csrf
         <div>
