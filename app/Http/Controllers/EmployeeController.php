@@ -11,7 +11,7 @@ class EmployeeController extends Controller
     public function index(Request $request)
     {
         // Fetch employees with search filters if provided
-        $query = Employee::with('user'); // Fetch the related user data
+        $query = Employees::with('user'); // Fetch the related user data
 
         if ($request->has('search')) {
             $search = $request->input('search');
