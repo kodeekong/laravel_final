@@ -23,8 +23,7 @@
 <!-- For Admin and Supervisor only -->
         @if(auth()->check() && (auth()->user()->role === 'Admin' || auth()->user()->role === 'Supervisor'))
             <div class="mb-4">
-                <a href="{{ route('admin.approvals') }}" class="btn btn-primary">Go to Approval Page</a>
-                <a href="{{ route('admin.report') }}" class="btn btn-secondary">Go to Missed Activities Report</a>
+                <a href="{{ route('admin.report') }}" class="btn btn-secondary">Missed Activities Report</a>
                 <!-- Patient Information link can be dynamic when you want to manage patient info -->
                 <a href="{{ route('admin.additional_info', ['patient_id' => 0]) }}" class="btn btn-info">Patient Information</a>
                 </div>
