@@ -11,7 +11,7 @@ class AdminController extends Controller
 {
     // Fetch users who are not admins or supervisors and are pending approval
     $pendingUsers = User::where('status', 'pending')
-                 ->whereNotIn('role', ['admin', 'supervisor'])
+                 ->whereNotIn('role', ['Admin', 'Supervisor'])
                  ->get();
 
     return view('admin.approvals', compact('pendingUsers'));
