@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminReportController;
@@ -7,8 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PatientAdditionalController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\RoleController;
-
-
+use App\Http\Controllers\PatientController;
 
 // Route to display the welcome page
 Route::get('/', function () {
@@ -56,3 +54,8 @@ Route::prefix('admin')->name('admin.')
         Route::post('/roles', [RoleController::class, 'store'])->name('roles.store');
         Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
     });
+
+Route::middleware(['auth', 'role:Patient'])->group(function () {
+    Route::get('/patient/home', [PatientController::class, 'home'])->name('patient.home');
+});
+            
