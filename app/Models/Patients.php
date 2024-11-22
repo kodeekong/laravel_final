@@ -8,5 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class Patients extends Model
 {
-    use HasFactory;
+    protected $fillable = [
+        'user_id', 
+        'patient_id', 
+        'admission_date', 
+        'group'
+    ];
+
+    // Define the relationship with the User model
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
+
+    
