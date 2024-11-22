@@ -26,7 +26,7 @@ class AuthController extends Controller
     public function showDashboard()
     {
         $user = auth()->user(); 
-        return view('dashboard', compact('user')); // Pass user data to the view
+        return view('dashboard', compact('user'));
     }
 
 
