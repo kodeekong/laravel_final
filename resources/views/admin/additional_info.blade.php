@@ -20,13 +20,12 @@
 
     <a href="{{ route('dashboard') }}" class="btn btn-primary mb-3">Back to Dashboard</a>
 
-
     <!-- Patient ID Input for fetching Patient Data -->
     <form method="GET" action="{{ route('admin.additional_info') }}">
         @csrf
         <div class="form-group">
             <label for="patient_id">Patient ID</label>
-            <input type="text" class="form-control" id="patient_id" name="patient_id" value="{{ old('patient_id', $patient->patient_id ?? '') }}" placeholder="Enter Patient ID" required>
+            <input type="text" class="form-control" id="patient_id" name="patient_id" value="{{ old('patient_id') }}" placeholder="Enter Patient ID" required>
         </div>
         <button type="submit" class="btn btn-primary">Fetch Patient Info</button>
     </form>

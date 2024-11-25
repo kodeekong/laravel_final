@@ -66,7 +66,7 @@ class AuthController extends Controller
         'email' => 'required|email|unique:users,email',
         'phone' => 'required|string|max:15',
         'date_of_birth' => 'required|date',
-        'password' => 'required|string|min:8|confirmed', // Password confirmation
+        'password' => 'required|string|min:4|confirmed', // Password confirmation
         'role' => 'required|string|in:Patient,Family Member,Admin,Supervisor,Doctor',
         'family_code' => 'nullable|string|max:50',
         'relation_to_emergency' => 'nullable|string|max:255',
@@ -87,23 +87,6 @@ class AuthController extends Controller
         'emergency_contact' => $request->emergency_contact, // Only for Patients or Family Members
     ]);
 
-    {
-        $user = User::create([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'date_of_birth' => $request->date_of_birth,
-            'password' => Hash::make($request->password),
-            'family_code' => $request->family_code,
-            'role' => $request->role,
-            'relation_to_emergency' => $request->relation_to_emergency,
-            'emergency_contact' => $request->emergency_contact
-        ]);
-
-        auth()->login($user);
-
-
     // After creating the user, check if the user is a Patient
     if ($user->role === 'Patient') {
         // Insert into the patients table
@@ -123,5 +106,4 @@ class AuthController extends Controller
 }
 
 }
-
 ?>
