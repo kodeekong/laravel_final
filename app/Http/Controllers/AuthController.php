@@ -17,7 +17,9 @@ use Illuminate\Support\Str;
 class AuthController extends Controller
 {
     public function showHome(){
-        return view('auth.home');
+        // return view('auth.home');
+
+        dd("hello");
     }
 
     public function showLoginForm(){
@@ -55,6 +57,7 @@ class AuthController extends Controller
     }
 
     public function register(Request $request)
+
 {
     // Validate the request inputs
     $validated = $request->validate([
@@ -83,6 +86,23 @@ class AuthController extends Controller
         'relation_to_emergency' => $request->relation_to_emergency, // Only for Patients or Family Members
         'emergency_contact' => $request->emergency_contact, // Only for Patients or Family Members
     ]);
+
+    {
+        $user = User::create([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'date_of_birth' => $request->date_of_birth,
+            'password' => Hash::make($request->password),
+            'family_code' => $request->family_code,
+            'role' => $request->role,
+            'relation_to_emergency' => $request->relation_to_emergency,
+            'emergency_contact' => $request->emergency_contact
+        ]);
+
+        auth()->login($user);
+
 
     // After creating the user, check if the user is a Patient
     if ($user->role === 'Patient') {

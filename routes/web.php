@@ -3,6 +3,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminReportController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\PatientAdditionalController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\RoleController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\PatientController;
 
 
 // Route to display the welcome page
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -56,7 +58,16 @@ Route::prefix('admin')->name('admin.')
         Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
     });
 
+
 Route::middleware(['auth', 'role:Patient'])->group(function () {
     Route::get('/patient/home', [PatientController::class, 'home'])->name('patient.home');
 });
             
+// Patient Management Routes
+Route::get('/patients/create', [PatientController::class, 'create'])->name('patients.create');
+Route::post('/patients/store', [PatientController::class, 'store'])->name('patients.store');
+
+// Employee Routes
+Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
+Route::post('/employees/update-salary', [EmployeeController::class, 'updateSalary'])->name('employees.update-salary');
+
