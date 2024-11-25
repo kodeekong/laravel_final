@@ -8,7 +8,7 @@ use App\Http\Controllers\PatientAdditionalController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PatientController;
-
+use App\Http\Controllers\AppointmentController;
 
 // Route to display the welcome page
 
@@ -70,3 +70,8 @@ Route::post('/patients/store', [PatientController::class, 'store'])->name('patie
 Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
 Route::post('/employees/update-salary', [EmployeeController::class, 'updateSalary'])->name('employees.update-salary');
 
+Route::middleware(['auth', 'role:Admin|Supervisor'])->group(function () {
+    Route::get('admin/appointments/create', [AppointmentController::class, 'create'])->name('appointments.create');
+    Route::post('admin/appointments/store', [AppointmentController::class, 'store'])->name('appointments.store');
+    Route::get('admin/appointments/fetch-patient', [AppointmentController::class, 'fetchPatient'])->name('appointments.fetch-patient');
+});
