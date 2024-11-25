@@ -11,7 +11,9 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
     public function showHome(){
-        return view('auth.home');
+        // return view('auth.home');
+
+        dd("hello");
     }
 
     public function showLoginForm(){
@@ -62,7 +64,7 @@ class AuthController extends Controller
             'relation_to_emergency' => $request->relation_to_emergency,
             'emergency_contact' => $request->emergency_contact
         ]);
-        
+
         auth()->login($user);
 
         return redirect()->route('login')->with('success', 'Registration successful!');

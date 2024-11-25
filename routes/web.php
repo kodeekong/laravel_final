@@ -3,12 +3,14 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminReportController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\PatientAdditionalController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PatientController;
 
 // Route to display the welcome page
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -32,18 +34,18 @@ Route::post('/register', [AuthController::class, 'register']);
 // Admin and Supervisor role-based routes, protected by 'auth' and role middleware
 Route::middleware(['auth', 'role:Admin,Supervisor'])->group(function () {
     // Admin Report Route
-    Route::get('/admin/report', [AdminReportController::class, 'index'])->name('admin.report');
+    Route::get('/admin/report', [AdminReportController::class, 'index'])->name('admin.report');    
+
+    // Route to show the form (with or without patient_id)
+    Route::get('admin/additional-info/{patient_id?}', [PatientAdditionalController::class, 'showAdditionalInfoForm'])->name('admin.additional_info');
+    // Route to update the patient's additional information
+    Route::post('admin/{patient_id}/additional-info', [PatientAdditionalController::class, 'updateAdditionalInfo'])->name('admin.update_additional_info');
     
-    // Admin Approvals routes
+
+        // Admin Approvals routes
     Route::get('/admin/approvals', [AdminController::class, 'showApprovals'])->name('admin.approvals');
     Route::post('/admin/approvals/{user}/approve', [AdminController::class, 'approveUser'])->name('admin.approvals.approve');
     Route::post('/admin/approvals/{user}/reject', [AdminController::class, 'rejectUser'])->name('admin.approvals.reject');
-
-    // Route to show the form (with or without patient_id)
-    Route::get('/admin/additional_info/{patient_id?}', [PatientAdditionalController::class, 'showAdditionalInfoForm'])->name('admin.additional_info');
-
-    // Route to update the patient's additional information
-    Route::post('/admin/{patient_id}/additional_info', [PatientAdditionalController::class, 'updateAdditionalInfo']);
 });
 
 // Admin-specific roles management routes, protected by 'auth' and 'role:admin'
@@ -55,7 +57,16 @@ Route::prefix('admin')->name('admin.')
         Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
     });
 
+
 Route::middleware(['auth', 'role:Patient'])->group(function () {
     Route::get('/patient/home', [PatientController::class, 'home'])->name('patient.home');
 });
             
+// Patient Management Routes
+Route::get('/patients/create', [PatientController::class, 'create'])->name('patients.create');
+Route::post('/patients/store', [PatientController::class, 'store'])->name('patients.store');
+
+// Employee Routes
+Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
+Route::post('/employees/update-salary', [EmployeeController::class, 'updateSalary'])->name('employees.update-salary');
+
