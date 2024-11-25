@@ -18,7 +18,10 @@
         <div class="alert alert-danger">{{ session('error') }}</div>
     @endif
 
-    <!-- Patient ID Input -->
+    <a href="{{ route('dashboard') }}" class="btn btn-primary mb-3">Back to Dashboard</a>
+
+
+    <!-- Patient ID Input for fetching Patient Data -->
     <form method="GET" action="{{ route('admin.additional_info') }}">
         @csrf
         <div class="form-group">
@@ -30,7 +33,7 @@
 
     <!-- If patient data is found, show the update form -->
     @isset($patient)
-        <form method="POST" action="{{ url('admin/'.$patient->patient_id.'/additional_info') }}">
+        <form method="POST" action="{{ url('admin/'.$patient->patient_id.'/additional-info') }}">
             @csrf
 
             <!-- Patient Name (non-editable) -->
@@ -48,13 +51,19 @@
             <!-- Admission Date -->
             <div class="form-group">
                 <label for="admission_date">Admission Date</label>
-                <input type="date" id="admission_date" class="form-control" name="admission_date" value="{{ old('admission_date', $patient->admission_date) }}">
+                <input type="date" id="admission_date" class="form-control" name="admission_date" value="{{ old('admission_date', $patient->admission_date) }}" required>
+                @error('admission_date')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
             </div>
 
             <!-- Group -->
             <div class="form-group">
                 <label for="group">Group</label>
                 <input type="text" id="group" class="form-control" name="group" value="{{ old('group', $patient->group) }}">
+                @error('group')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="form-group">

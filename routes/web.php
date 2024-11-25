@@ -9,6 +9,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PatientController;
 
+
 // Route to display the welcome page
 
 Route::get('/', function () {

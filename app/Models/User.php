@@ -3,12 +3,16 @@ namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class User extends Authenticatable
 {
-    protected $table = 'users'; // Explicitly define the table name
+    use HasFactory, Notifiable;
 
-    use Notifiable;
+    // Explicitly define the table name if necessary
+    protected $table = 'users';
+
     protected $fillable = [
         'phone',
         'first_name',
@@ -26,5 +30,11 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    // Define the one-to-one relationship between User and Patient
+    public function patients()
+    {
+        return $this->hasOne(Patients::class);
+    }
 }
 
