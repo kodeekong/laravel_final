@@ -79,7 +79,10 @@
 
         <div class="form-buttons">
             <button type="submit" class="ok-button">OK</button>
+            <a href="/register">Register</a>
+
         </div>
+
     </form>
 </div>
 
