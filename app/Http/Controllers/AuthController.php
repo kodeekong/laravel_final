@@ -2,24 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use App\Models\User;
-use App\Models\Patients;
+use App\Models\Patient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
-
-
 
 
 class AuthController extends Controller
 {
     public function showHome(){
-        // return view('auth.home');
-
-        dd("hello");
+        return view('auth.home');
     }
 
     public function showLoginForm(){
@@ -55,8 +49,59 @@ class AuthController extends Controller
         Auth::logout();  
         return redirect()->route('login')->with('success', 'You have been logged out successfully.');
     }
-
+    
     public function register(Request $request)
+    {
+        // Validate the incoming request
+        $validatedData = $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'phone' => 'required|string|max:15',
+            'date_of_birth' => 'required|date',
+            'password' => 'required|string|min:6|confirmed',
+            'role' => 'required|string',
+            'family_code' => 'nullable|string',
+            'relation_to_emergency' => 'nullable|string',
+            'emergency_contact' => 'nullable|string',
+        ]);
+    
+        // Create the user in the `users` table
+        $user = User::create([
+            'first_name' => $validatedData['first_name'],
+            'last_name' => $validatedData['last_name'],
+            'email' => $validatedData['email'],
+            'phone' => $validatedData['phone'],
+            'date_of_birth' => $validatedData['date_of_birth'],
+            'password' => Hash::make($validatedData['password']),
+            'role' => $validatedData['role'],
+            'family_code' => $validatedData['family_code'],
+            'relation_to_emergency' => $validatedData['relation_to_emergency'],
+            'emergency_contact' => $validatedData['emergency_contact'],
+        ]);
+    
+        // After user creation, if the user is a "Patient", create the associated patient record using DB::table()
+        if ($user->role == 'Patient') {
+            // Insert patient record using DB facade
+            DB::table('patients')->insert([
+                'user_id' => $user->id, // Link this patient to the user
+                'patient_id' => uniqid('P'), // Generate a unique patient ID
+                'admission_date' => now(), // Set admission date to now
+                'group' => 'Default Group', // Set group or this can be dynamic
+            ]);
+    
+            // Log patient creation (optional)
+            \Log::info('Patient created for User ID: ' . $user->id);
+        }
+    
+        // Log the user creation (optional)
+        \Log::info('User created with ID: ' . $user->id);
+    
+        // Log the user in
+        auth()->login($user);
+    
+        // Redirect to the login page with success message
+        return redirect()->route('login')->with('success', 'Registration successful!');
 
 {
     // Validate the request inputs
@@ -97,13 +142,9 @@ class AuthController extends Controller
             'group' => 'general', // Or you can leave this null or based on your logic
         ]);
     }
-
-    // Log the user in after registration
-    auth()->login($user);
-
-    // Redirect to the login page with a success message
-    return redirect()->route('login')->with('success', 'Registration successful!');
-}
+    
 
 }
+
 ?>
+

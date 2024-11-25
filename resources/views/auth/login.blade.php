@@ -65,8 +65,6 @@
     <h2>Log in</h2>
     <form action="{{ route('login') }}" method="POST">
         @csrf
-        <!-- The CSRF token will be automatically added with @csrf directive -->
-
         <div class="form-group">
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required>
