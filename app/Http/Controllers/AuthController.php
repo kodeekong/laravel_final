@@ -106,7 +106,6 @@ class AuthController extends Controller
     
 
 }
-
 ?>
 
 <!-- //Insert Patient Data
