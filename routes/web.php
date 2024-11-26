@@ -67,6 +67,6 @@ Route::get('/patients/create', [PatientController::class, 'create'])->name('pati
 Route::post('/patients/store', [PatientController::class, 'store'])->name('patients.store');
 
 // Employee Routes
-Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
-Route::post('/employees/update-salary', [EmployeeController::class, 'updateSalary'])->name('employees.update-salary');
-
+Route::get('/employees', function () {
+    return view('employee.index');
+});
