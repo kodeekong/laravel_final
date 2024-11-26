@@ -67,11 +67,10 @@ Route::get('/patients/create', [PatientController::class, 'create'])->name('pati
 Route::post('/patients/store', [PatientController::class, 'store'])->name('patients.store');
 
 // Employee Routes
-<<<<<<< HEAD
 Route::get('/employees', function () {
     return view('employee.index');
 });
-=======
+
 Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
 Route::post('/employees/update-salary', [EmployeeController::class, 'updateSalary'])->name('employees.update-salary');
 
@@ -84,4 +83,7 @@ Route::middleware(['auth', 'role:Admin|Supervisor'])->group(function () {
 Route::get('/patients', function () {
     return view('patients');
 })->name('patients');
->>>>>>> bf707b521a32f11dd79309d83d5312282d93681e
+
+Route::get('/payment', function () {
+    return view('payment');
+});
