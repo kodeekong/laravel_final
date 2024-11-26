@@ -114,6 +114,10 @@
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
         </div>
+        <div>
+        <label for="password_confirmation">Confirm Password</label>
+        <input type="password" name="password_confirmation" required>
+        </div>
 
         <div id="patient-info" class="patient-info">
             <h3>Additional Information for Patient</h3>

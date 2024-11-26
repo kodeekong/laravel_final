@@ -23,17 +23,10 @@
 <!-- For Admin and Supervisor only -->
         @if(auth()->check() && (auth()->user()->role === 'Admin' || auth()->user()->role === 'Supervisor'))
             <div class="mb-4">
-                <a href="{{ route('admin.report') }}" class="btn btn-secondary">Missed Activities Report</a>
-                <!-- Patient Information link can be dynamic when you want to manage patient info -->
-                <a href="{{ route('admin.additional_info', ['patient_id' => 0]) }}" class="btn btn-info">Patient Information</a>
-                </div>
-        @endif
-
-        <!-- For Patient (if you decide to implement) -->
-        @if(auth()->check() && auth()->user()->role === 'Patient')
-            <div class="mb-3">
-                <!-- Placeholder for the Patient Info link -->
-                <a href="{{ route('patient.additional_info', ['patient_id' => auth()->user()->patient_id]) }}" class="btn btn-info">View My Information</a>
+            <a href="{{ route('admin.report') }}" class="btn btn-secondary">Missed Activities Report</a>
+            <!-- Patient Information link can be dynamic when you want to manage patient info -->
+            <a href="{{ route('admin.additional_info', ['patient_id' => 1]) }}" class="btn btn-info">Patient Information</a>
+            <a href="{{ route('appointments.create', ['patient_id' => 1]) }}" class="btn btn-info">Create Appointment</a>
             </div>
         @endif
 

@@ -4,50 +4,56 @@ namespace App\Http\Controllers;
 
 use App\Models\Patients;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class PatientAdditionalController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth', 'role:admin']);  // Ensures only admin can access
+        $this->middleware(['auth', 'role:Admin']);  // Ensures only admin can access
     }
 
-    // Show the form to input additional info (no patient selected yet)
-    
-    public function showAdditionalInfoForm($patient_id = null)
+    // Show the form to update or add additional information for an existing patient
+    public function showAdditionalInfoForm(Request $request, $patient_id = null)
     {
-        // If there's a patient_id, fetch the patient data
         $patient = null;
-        if ($patient_id && $patient_id != 0) {
-            $patient = Patients::where('patient_id', $patient_id)->first();
+
+        // Fetch the patient only if patient_id is provided
+        if ($request->has('patient_id') && $request->patient_id) {
+            $patient = Patients::where('patient_id', $request->patient_id)->first();
         }
 
+        // Pass both patient and user data to the view
         return view('admin.additional_info', compact('patient'));
     }
 
-
-
-// Handle the form submission for updating additional patient information
+    // Handle the form submission for updating additional patient information
     public function updateAdditionalInfo(Request $request, $patient_id)
     {
-        // Validate incoming data
+        // Validate incoming data (admission_date and group are the only editable fields)
         $request->validate([
             'admission_date' => 'required|date',
             'group' => 'nullable|string|max:255',
         ]);
 
-        // Find the patient by patient_id
+        // Retrieve the patient by ID (using the patient_id from the URL)
         $patient = Patients::where('patient_id', $patient_id)->first();
 
+        // If patient is not found, redirect with an error
         if (!$patient) {
-            return redirect()->route('admin.additional_info')->with('error', 'Patient not found.');
+            return redirect()->route('admin.additional_info')->with('error', 'Patient not found');
         }
 
         // Update the patient's additional information
-        $patient->admission_date = $request->input('admission_date');
-        $patient->group = $request->input('group');
-        $patient->save();
+        $patient->admission_date = $request->admission_date;
+        $patient->group = $request->group;
 
-        return redirect()->route('admin.additional_info')->with('success', 'Patient information updated successfully!');
+        // Save the changes back to the database
+        $patient->save();  // This commits the changes
+
+        // Redirect back to the form with a success message
+        return redirect()->route('admin.additional_info', ['patient_id' => $patient->patient_id])
+                         ->with('success', 'Patient information updated successfully!');
     }
 }
