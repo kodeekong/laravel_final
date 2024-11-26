@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('role', 50);
             $table->string('relation_to_emergency', 255)->nullable();
             $table->string('emergency_contact', 15)->nullable();
+            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending'); //add manually
             $table->timestamps();
         });
     }

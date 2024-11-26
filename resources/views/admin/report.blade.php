@@ -8,16 +8,10 @@
 </head>
 <body>
 
-    <!-- Navigation Bar (Optional, can be customized) -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Admin Dashboard</a>
-    </nav>
-
     <div class="container mt-4">
         <h1 class="text-center">Missed Activities Report</h1>
 
-        <!-- Date Filter Form -->
-        <form method="GET" action="{{ route('admin.report.index') }}" class="mb-4">
+        <form method="GET" action="{{ route('admin.report') }}" class="mb-4">
             <div class="form-row">
                 <div class="col-md-3">
                     <label for="date">Filter by Date</label>
@@ -29,13 +23,11 @@
             </div>
         </form>
 
-        <!-- Check if there are any missed activities -->
         @if ($missedActivities->isEmpty())
             <div class="alert alert-warning text-center">
                 No missed activities found.
             </div>
         @else
-            <!-- Table to display missed activities -->
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -70,11 +62,6 @@
             </table>
         @endif
     </div>
-
-    <!-- Optional: Add JavaScript or Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 </body>
 </html>

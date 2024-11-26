@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('patients', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('patient_id')->unique();
-            $table->date('admission_date')->nullable();
-            $table->string('group')->nullable();
-            $table->timestamps();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Foreign key linking to users table
+            $table->string('patient_id')->unique(); // Patient's unique ID
+            $table->date('admission_date')->nullable(); // Nullable admission date field
+            $table->string('group')->nullable(); // Nullable group field
+            $table->timestamps(); // Created and updated timestamps
         });
     }
 
