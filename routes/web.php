@@ -8,6 +8,7 @@ use App\Http\Controllers\PatientAdditionalController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PatientController;
+use App\Http\Controllers\AppointmentController;
 
 // Route to display the welcome page
 
@@ -37,11 +38,10 @@ Route::middleware(['auth', 'role:Admin,Supervisor'])->group(function () {
     Route::get('/admin/report', [AdminReportController::class, 'index'])->name('admin.report');    
 
     // Route to show the form (with or without patient_id)
-    Route::get('admin/additional-info/{patient_id?}', [PatientAdditionalController::class, 'showAdditionalInfoForm'])->name('admin.additional_info');
+    Route::get('admin/additional-info', [PatientAdditionalController::class, 'showAdditionalInfoForm'])->name('admin.additional_info');
     // Route to update the patient's additional information
     Route::post('admin/{patient_id}/additional-info', [PatientAdditionalController::class, 'updateAdditionalInfo'])->name('admin.update_additional_info');
     
-
         // Admin Approvals routes
     Route::get('/admin/approvals', [AdminController::class, 'showApprovals'])->name('admin.approvals');
     Route::post('/admin/approvals/{user}/approve', [AdminController::class, 'approveUser'])->name('admin.approvals.approve');
@@ -70,3 +70,12 @@ Route::post('/patients/store', [PatientController::class, 'store'])->name('patie
 Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
 Route::post('/employees/update-salary', [EmployeeController::class, 'updateSalary'])->name('employees.update-salary');
 
+Route::middleware(['auth', 'role:Admin|Supervisor'])->group(function () {
+    Route::get('admin/appointments/create', [AppointmentController::class, 'create'])->name('appointments.create');
+    Route::post('admin/appointments/store', [AppointmentController::class, 'store'])->name('appointments.store');
+    Route::get('admin/appointments/fetch-patient', [AppointmentController::class, 'fetchPatient'])->name('appointments.fetch-patient');
+});
+
+Route::get('/patients', function () {
+    return view('patients');
+})->name('patients');

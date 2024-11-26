@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Patient;
+use Illuminate\Support\Facades\Auth;
 
 class PatientController extends Controller
 {
@@ -35,15 +36,7 @@ class PatientController extends Controller
         // Redirect back with success message
         return redirect()->route('patients.create')->with('success', 'Patient created successfully!');
     }
-}
-
-namespace App\Http\Controllers;
-
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
-
-class PatientController extends Controller
-{
+    
     public function home()
     {
         $user = Auth::user(); 
