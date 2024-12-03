@@ -26,7 +26,7 @@
             <a href="{{ route('admin.report') }}" class="btn btn-secondary">Missed Activities Report</a>
             <!-- Patient Information link can be dynamic when you want to manage patient info -->
             <a href="{{ route('admin.additional_info', ['patient_id' => 1]) }}" class="btn btn-info">Patient Information</a>
-            <a href="{{ route('appointments.create', ['patient_id' => 1]) }}" class="btn btn-info">Create Appointment</a>
+            <a href="{{ route('admin.appointments.create', ['patient_id' => 1]) }}" class="btn btn-info">Create Appointment</a>
             </div>
         @endif
 
