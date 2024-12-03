@@ -36,7 +36,7 @@ class EmployeeController extends Controller
             'new_salary' => 'required|numeric|min:0',
         ]);
 
-        $employee = Employee::where('employee_id', $request->input('emp_id'))->firstOrFail();
+        $employee = Employees::where('employee_id', $request->input('emp_id'))->firstOrFail();
         $employee->salary = $request->input('new_salary');
         $employee->save();
 

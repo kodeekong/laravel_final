@@ -34,7 +34,7 @@ class User extends Authenticatable
     // Define the one-to-one relationship between User and Patient
     public function patients()
     {
-        return $this->hasOne(Patients::class);
+        return $this->hasOne(Patient::class);
     }
 }
 

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\Patients;
+use App\Models\Patient;
 use App\Models\Roster;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -81,16 +81,18 @@ class AuthController extends Controller
             'relation_to_emergency' => $request->relation_to_emergency, // Only for Patients or Family Members
             'emergency_contact' => $request->emergency_contact, // Only for Patients or Family Members
         ]);
+      
+              // After creating the user, check if the user is a Patient
+    if ($user->role === 'Patient') {
+        // Insert into the patients table
+        Patient::create([
+            'user_id' => $user->id,
+            'patient_id' => 'P' . Str::upper(Str::random(5)), // Generate unique patient ID
+            'admission_date' => now(), // Set current date as admission date (you can adjust this)
+            'group' => 'general', // Or you can leave this null or based on your logic
+        ]);
     
-        // Add to the patients table if the user is a Patient
-        if ($user->role === 'Patient') {
-            Patients::create([
-                'user_id' => $user->id,
-                'patient_id' => 'P' . Str::upper(Str::random(5)), // Generate unique patient ID
-                'admission_date' => now(), // Set current date as admission date
-                'group' => 'general', // Or you can leave this null or based on your logic
-            ]);
-        }
+
     
         // Add the user to the rosters table if they are a Doctor, Caregiver, or Supervisor
         if (in_array($user->role, ['Doctor', 'Caregiver', 'Supervisor'])) {

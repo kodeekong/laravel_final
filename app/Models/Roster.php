@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Roster extends Model
 {
+
+    use HasFactory;
+
     protected $fillable = ['date', 'supervisor_id', 'doctor_id', 'caregiver_ids'];
 
     public function doctor()
@@ -22,6 +25,7 @@ class Roster extends Model
     public function caregivers()
     {
         return $this->hasMany(User::class, 'id', 'caregiver_ids');
+
     }
 }
 

@@ -35,7 +35,7 @@ Route::post('/register', [AuthController::class, 'register']);
 // Admin and Supervisor role-based routes, protected by 'auth' and role middleware
 Route::middleware(['auth', 'role:Admin,Supervisor'])->group(function () {
     // Admin Report Route
-    Route::get('/admin/report', [AdminReportController::class, 'index'])->name('admin.report');    
+    Route::get('/admin/report', [AdminReportController::class, 'showReport'])->name('admin.report');
 
     // Route to show the form (with or without patient_id)
     Route::get('admin/additional-info', [PatientAdditionalController::class, 'showAdditionalInfoForm'])->name('admin.additional_info');
@@ -74,9 +74,11 @@ Route::get('/employees', function () {
 Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
 Route::post('/employees/update-salary', [EmployeeController::class, 'updateSalary'])->name('employees.update-salary');
 
+
+//appointments 
 Route::middleware(['auth', 'role:Admin|Supervisor'])->group(function () {
-    Route::get('admin/appointments/create', [AppointmentController::class, 'create'])->name('appointments.create');
-    Route::post('admin/appointments/store', [AppointmentController::class, 'store'])->name('appointments.store');
+    Route::get('appointments/create', [AppointmentController::class, 'create'])->name('appointments.create');
+    Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
 });
 
 
