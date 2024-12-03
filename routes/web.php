@@ -87,3 +87,7 @@ Route::get('/patients', function () {
 Route::get('/payment', function () {
     return view('payment');
 });
+
+Route::get('/caregiver/home', function () {
+    return view('caregiver.home');
+})->name('caregiver.home');
