@@ -13,6 +13,7 @@ class AppointmentController extends Controller
     {
      // Fetch doctors
         $doctors = User::where('role', 'Doctor')->get();
+        
 
         // Return the appointment creation view with the patient and doctors
         return view('admin.appointments.create', compact('doctors'));
