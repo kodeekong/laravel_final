@@ -3,22 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\Patient;
+use App\Models\Patients;
 use App\Models\Roster;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
-
 class AuthController extends Controller
 {
-    public function showHome(){
+    public function showHome()
+    {
         return view('auth.home');
     }
 
-    public function showLoginForm(){
+    public function showLoginForm()
+    {
         return view('auth.login');
     }
 
@@ -29,10 +29,9 @@ class AuthController extends Controller
 
     public function showDashboard()
     {
-        $user = auth()->user(); 
+        $user = auth()->user();
         return view('dashboard', compact('user'));
     }
-
 
     public function login(Request $request)
     {
@@ -40,7 +39,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             return redirect()->route('dashboard')->with('success', 'Log in successful!');
         }
-    
+
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ]);
@@ -48,10 +47,10 @@ class AuthController extends Controller
 
     public function logout()
     {
-        Auth::logout();  
+        Auth::logout();
         return redirect()->route('login')->with('success', 'You have been logged out successfully.');
     }
-    
+
     public function register(Request $request)
     {
         // Validate the request inputs
@@ -62,12 +61,12 @@ class AuthController extends Controller
             'phone' => 'required|string|max:15',
             'date_of_birth' => 'required|date',
             'password' => 'required|string|min:4|confirmed', // Password confirmation
-            'role' => 'required|string|in:Patient,Family Member,Admin,Supervisor,Doctor,Caregiver',
+            'role' => 'required|string|in:Patient,Family Member,Admin,Supervisor,Doctor',
             'family_code' => 'nullable|string|max:50',
             'relation_to_emergency' => 'nullable|string|max:255',
             'emergency_contact' => 'nullable|string|max:15',
         ]);
-    
+
         // Create the user
         $user = User::create([
             'first_name' => $request->first_name,
@@ -81,19 +80,18 @@ class AuthController extends Controller
             'relation_to_emergency' => $request->relation_to_emergency, // Only for Patients or Family Members
             'emergency_contact' => $request->emergency_contact, // Only for Patients or Family Members
         ]);
-      
-              // After creating the user, check if the user is a Patient
-    if ($user->role === 'Patient') {
-        // Insert into the patients table
-        Patient::create([
-            'user_id' => $user->id,
-            'patient_id' => 'P' . Str::upper(Str::random(5)), // Generate unique patient ID
-            'admission_date' => now(), // Set current date as admission date (you can adjust this)
-            'group' => 'general', // Or you can leave this null or based on your logic
-        ]);
-    
 
-    
+        // After creating the user, check if the user is a Patient
+        if ($user->role === 'Patient') {
+            // Insert into the patients table
+            Patients::create([
+                'user_id' => $user->id,
+                'patient_id' => 'P' . Str::upper(Str::random(5)), // Generate unique patient ID
+                'admission_date' => now(), // Set current date as admission date (you can adjust this)
+                'group' => 'general', // Or you can leave this null or based on your logic
+            ]);
+        }
+
         // Add the user to the rosters table if they are a Doctor, Caregiver, or Supervisor
         if (in_array($user->role, ['Doctor', 'Caregiver', 'Supervisor'])) {
             Roster::create([
@@ -103,15 +101,12 @@ class AuthController extends Controller
                 'caregiver_ids' => $user->role === 'Caregiver' ? json_encode([$user->id]) : null, // Assign caregiver IDs if Caregiver
             ]);
         }
-    
+
         // Log the user in after registration
         auth()->login($user);
-    
+
+        // Redirect to the dashboard after successful registration
         return redirect()->route('dashboard')->with('success', 'Registration successful!');
     }
-    
-
 }
-
 ?>
-

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Patient;
+use App\Models\Patients;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -21,7 +21,7 @@ class PatientAdditionalController extends Controller
 
         // Fetch the patient only if patient_id is provided
         if ($request->has('patient_id') && $request->patient_id) {
-            $patient = Patient::where('patient_id', $request->patient_id)->first();
+            $patient = Patients::where('patient_id', $request->patient_id)->first();
         }
 
         // Pass both patient and user data to the view
@@ -38,7 +38,7 @@ class PatientAdditionalController extends Controller
         ]);
 
         // Retrieve the patient by ID (using the patient_id from the URL)
-        $patient = Patient::where('patient_id', $patient_id)->first();
+        $patient = Patients::where('patient_id', $patient_id)->first();
 
         // If patient is not found, redirect with an error
         if (!$patient) {
