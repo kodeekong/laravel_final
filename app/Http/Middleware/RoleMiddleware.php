@@ -17,17 +17,15 @@ class RoleMiddleware
      * @param  string  $roles
      * @return \Illuminate\Http\Response
      */
-    public function handle(Request $request, Closure $next, $roles)
-    {
-        // Allow for multiple roles separated by commas
-        $rolesArray = explode(',', $roles);
-
-        // Check if the user is authenticated and has a valid role
-        if (Auth::check() && in_array(Auth::user()->role, $rolesArray)) {
-            return $next($request);  // Proceed with the request if the role matches
-        }
-
-        // Redirect to home if the user doesn't have the correct role
-        return redirect()->route('home')->with('error', 'You do not have permission to access this page.');
+// In the Role middleware (e.g., app/Http/Middleware/RoleMiddleware.php)
+public function handle($request, Closure $next, $role)
+{
+    $roles = explode('|', $role);
+    if (!in_array(auth()->user()->role, $roles)) {
+        return redirect('/home'); // or a specific error page
     }
+
+    return $next($request);
+}
+
 }

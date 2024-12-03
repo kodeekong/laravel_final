@@ -14,12 +14,13 @@ return new class extends Migration
         Schema::create('rosters', function (Blueprint $table) {
             $table->id();
             $table->date('date');
-            $table->foreignId('supervisor_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('doctor_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('supervisor_id')->nullable()->constrained('users')->onDelete('cascade');
+            $table->foreignId('doctor_id')->nullable()->constrained('users')->onDelete('cascade');
             $table->json('caregiver_ids')->nullable();
             $table->timestamps();
         });
     }
+    
 
 
     /**

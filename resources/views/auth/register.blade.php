@@ -12,6 +12,7 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
+            margin: 0;
         }
         .form-container {
             background-color: #fff;
@@ -31,22 +32,27 @@
         .form-group label {
             display: block;
             margin-bottom: 5px;
+            font-weight: bold;
         }
         .form-group input, .form-group select {
             width: 100%;
-            padding: 8px;
+            padding: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
+            font-size: 14px;
         }
         .form-buttons {
             display: flex;
             justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
         }
         .form-buttons button {
             padding: 10px 15px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            font-size: 14px;
         }
         .form-buttons .ok-button {
             background-color: #4CAF50;
@@ -56,8 +62,22 @@
             background-color: #f44336;
             color: #fff;
         }
+        .form-buttons a {
+            text-decoration: none;
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: #fff;
+            border-radius: 4px;
+            font-size: 14px;
+            text-align: center;
+        }
         .patient-info {
             display: none;
+            margin-top: 20px;
+        }
+        .patient-info h3 {
+            margin-bottom: 10px;
+            font-size: 16px;
         }
     </style>
     <script>
@@ -114,35 +134,38 @@
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
         </div>
-        <div>
-        <label for="password_confirmation">Confirm Password</label>
-        <input type="password" name="password_confirmation" required>
+        <div class="form-group">
+            <label for="password_confirmation">Confirm Password:</label>
+            <input type="password" id="password_confirmation" name="password_confirmation" required>
         </div>
 
         <div id="patient-info" class="patient-info">
             <h3>Additional Information for Patient</h3>
             <div class="form-group">
-            <label for="family_code">Family Code (For Patient Family Member):</label>
-            <input type="text" id="family_code" name="family_code">
+                <label for="family_code">Family Code (For Patient Family Member):</label>
+                <input type="text" id="family_code" name="family_code">
+            </div>
+
+            <div class="form-group">
+                <label for="relation">Relation to Emergency Contact:</label>
+                <input type="text" id="relation_to_emergency" name="relation_to_emergency">
+            </div>
+
+            <div class="form-group">
+                <label for="emergency_contact">Emergency Contact:</label>
+                <input type="tel" id="emergency_contact" name="emergency_contact">
+            </div>
         </div>
 
-        <div class="form-group">
-            <label for="relation">Relation to Emergency Contact:</label>
-            <input type="text" id="relation_to_emergency" name="relation_to_emergency">
-        </div>
-
-        <div class="form-group">
-            <label for="emergency_contact">Emergency Contact:</label>
-            <input type="tel" id="emergency_contact" name="emergency_contact">
-        </div>
         <div class="form-buttons">
             <button type="submit" class="ok-button">Register</button>
+            <a href="/login">Or Login</a>
         </div>
     </form>
 </div>
-
 </body>
 </html>
+
 
 <!--    FOR ADMIN
             <div class="form-group">
