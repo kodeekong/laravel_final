@@ -2,7 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Appointment;
-use App\Models\Patients;
+use App\Models\Patient;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -12,7 +12,7 @@ class AppointmentController extends Controller
     public function create(Request $request)
     {
         // Fetch the patient based on the patient ID entered
-        $patient = Patients::where('patient_id', $request->patient_id)->first();
+        $patient = Patient::where('patient_id', $request->patient_id)->first();
 
         // If no patient is found, redirect with an error message
         if (!$patient) {
@@ -35,7 +35,7 @@ class AppointmentController extends Controller
         ]);
 
         // Retrieve the patient by ID
-        $patient = Patients::where('patient_id', $request->patient_id)->first();
+        $patient = Patient::where('patient_id', $request->patient_id)->first();
 
         if (!$patient) {
             return redirect()->back()->with('error', 'Patient not found.');

@@ -4,7 +4,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Patients;
+use App\Models\Patient;
 use Illuminate\Support\Facades\Auth;
 
 class PatientController extends Controller
@@ -31,7 +31,7 @@ class PatientController extends Controller
         ]);
 
         // Create a new patient record
-        Patients::create($validated);
+        Patient::create($validated);
 
         // Redirect back with success message
         return redirect()->route('patients.create')->with('success', 'Patient created successfully!');

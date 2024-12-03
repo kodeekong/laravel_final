@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\Patients;
+use App\Models\Patient;
+use App\Models\Roster;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -84,12 +85,51 @@ class AuthController extends Controller
         // After creating the user, check if the user is a Patient
     if ($user->role === 'Patient') {
         // Insert into the patients table
-        Patients::create([
+        Patient::create([
             'user_id' => $user->id,
             'patient_id' => 'P' . Str::upper(Str::random(5)), // Generate unique patient ID
             'admission_date' => now(), // Set current date as admission date (you can adjust this)
             'group' => 'general', // Or you can leave this null or based on your logic
         ]);
+    
+        // Create the user
+        $user = User::create([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'date_of_birth' => $request->date_of_birth,
+            'password' => Hash::make($request->password),
+            'family_code' => $request->family_code, // Only for Patients or Family Members
+            'role' => $request->role,
+            'relation_to_emergency' => $request->relation_to_emergency, // Only for Patients or Family Members
+            'emergency_contact' => $request->emergency_contact, // Only for Patients or Family Members
+        ]);
+    
+        // Add to the patients table if the user is a Patient
+        if ($user->role === 'Patient') {
+            Patient::create([
+                'user_id' => $user->id,
+                'patient_id' => 'P' . Str::upper(Str::random(5)), // Generate unique patient ID
+                'admission_date' => now(), // Set current date as admission date
+                'group' => 'general', // Or you can leave this null or based on your logic
+            ]);
+        }
+    
+        // Add the user to the rosters table if they are a Doctor, Caregiver, or Supervisor
+        if (in_array($user->role, ['Doctor', 'Caregiver', 'Supervisor'])) {
+            Roster::create([
+                'date' => now(), // Set default date to now; you can adjust this
+                'supervisor_id' => $user->role === 'Supervisor' ? $user->id : null, // Assign supervisor ID if Supervisor
+                'doctor_id' => $user->role === 'Doctor' ? $user->id : null, // Assign doctor ID if Doctor
+                'caregiver_ids' => $user->role === 'Caregiver' ? json_encode([$user->id]) : null, // Assign caregiver IDs if Caregiver
+            ]);
+        }
+    
+        // Log the user in after registration
+        auth()->login($user);
+    
+        return redirect()->route('dashboard')->with('success', 'Registration successful!');
     }
 
     // Log the user in after registration
