@@ -9,7 +9,7 @@
 <body>
 
 <div class="container mt-5">
-    <h2>Create Appointment for Patient: {{ $patient->patient_id ?? 'N/A' }}</h2>
+    <h2>Appointments for {{ $patient->patient_id ?? 'N/A' }}</h2>
 
     <!-- Success or Error Message -->
     @if(session('success'))
