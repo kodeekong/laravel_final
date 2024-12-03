@@ -11,19 +11,11 @@ class AppointmentController extends Controller
     // Show Appointment Creation Form
     public function create(Request $request)
     {
-        // Fetch the patient based on the patient ID entered
-        $patient = Patient::where('patient_id', $request->patient_id)->first();
-
-        // If no patient is found, redirect with an error message
-        if (!$patient) {
-            return redirect()->back()->with('error', 'Patient not found.');
-        }
-
-        // Fetch doctors
+     // Fetch doctors
         $doctors = User::where('role', 'Doctor')->get();
 
         // Return the appointment creation view with the patient and doctors
-        return view('appointments.create', compact('patient', 'doctors'));
+        return view('admin.appointments.create', compact('doctors'));
     }
 
     // Store the appointment details
@@ -33,13 +25,6 @@ class AppointmentController extends Controller
             'doctor_id' => 'required|exists:users,id',
             'appointment_date' => 'required|date|after_or_equal:today',
         ]);
-
-        // Retrieve the patient by ID
-        $patient = Patient::where('patient_id', $request->patient_id)->first();
-
-        if (!$patient) {
-            return redirect()->back()->with('error', 'Patient not found.');
-        }
 
         // Create the appointment
         Appointment::create([
