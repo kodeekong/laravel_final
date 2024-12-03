@@ -78,7 +78,7 @@ Route::post('/employees/update-salary', [EmployeeController::class, 'updateSalar
 //appointments 
 Route::middleware(['auth', 'role:Admin|Supervisor'])->group(function () {
     Route::get('appointments/create', [AppointmentController::class, 'create'])->name('appointments.create');
-    Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
+    Route::post('appointments/store', [AppointmentController::class, 'store'])->name('appointments.store');
 });
 
 
