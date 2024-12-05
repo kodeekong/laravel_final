@@ -26,6 +26,9 @@
             <!-- Patient Information link can be dynamic when you want to manage patient info -->
             <a href="{{ route('admin.additional_info', ['patient_id' => 1]) }}" class="btn btn-info">Patient Information</a>
             <a href="{{ route('appointments.create') }}" class="btn btn-info">Create Appointment</a>
+        @if(auth()->check() && (auth()->user()->role === 'Admin' || auth()->user()->role === 'Supervisor' || auth()->user()->role === 'Doctor' || auth()->user()->role === 'Caregiver'))
+            <a href="{{ route('admin.patients.index') }}" class="btn btn-info">List of patients</a>
+            @endif
             </div>
         @endif
 
