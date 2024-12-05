@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
+
 class AuthController extends Controller
 {
     public function showHome()
@@ -86,7 +87,7 @@ class AuthController extends Controller
             // Insert into the patients table
             Patients::create([
                 'user_id' => $user->id,
-                'patient_id' => 'P' . Str::upper(Str::random(5)), // Generate unique patient ID
+                'patient_id' => rand(10000,99999), // Generate unique patient ID
                 'admission_date' => now(), // Set current date as admission date (you can adjust this)
                 'group' => 'general', // Or you can leave this null or based on your logic
             ]);

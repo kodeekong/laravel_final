@@ -10,7 +10,6 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    // Explicitly define the table name if necessary
     protected $table = 'users';
 
     protected $fillable = [
@@ -31,7 +30,6 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    // Define the one-to-one relationship between User and Patient
     public function patients()
     {
         return $this->hasOne(Patients::class);
