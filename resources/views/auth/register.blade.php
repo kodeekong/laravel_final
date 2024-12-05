@@ -147,12 +147,12 @@
             </div>
 
             <div class="form-group">
-                <label for="relation">Relation to Emergency Contact:</label>
+                <label for="relation">Emergency Contact Name:</label>
                 <input type="text" id="relation_to_emergency" name="relation_to_emergency">
             </div>
 
             <div class="form-group">
-                <label for="emergency_contact">Emergency Contact:</label>
+                <label for="emergency_contact">Emergency Contact Number:</label>
                 <input type="tel" id="emergency_contact" name="emergency_contact">
             </div>
         </div>

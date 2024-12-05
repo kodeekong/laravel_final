@@ -76,9 +76,9 @@ Route::middleware(['auth', 'role:Admin|Supervisor'])->group(function () {
     Route::post('appointments/store', [AppointmentController::class, 'store'])->name('appointments.store');
 });
 
-Route::get('/patients', function () {
-    return view('patients');
-})->name('patients');
+Route::middleware(['auth', 'role:Admin|Supervisor|Doctor|Caregiver'])->group(function () {
+    Route::get('/admin/patients', [PatientController::class, 'index'])->name('admin.patients.index');
+});
 
 Route::get('/payment', function () {
     return view('payment');
