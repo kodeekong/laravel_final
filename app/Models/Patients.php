@@ -13,12 +13,16 @@ class Patients extends Model
         'patient_id',
         'admission_date',
         'group',
-        'user_id', // Make sure user_id is included in fillable attributes
+        'user_id', 
     ];
 
-    // Define the relationship where a patient belongs to a user
     public function user()
     {
-        return $this->belongsTo(User::class); // A patient belongs to a user
+        return $this->belongsTo(User::class); 
+    }
+
+    public function appointments()
+    {
+    return $this->hasMany(Appointment::class, 'patient_id');
     }
 }

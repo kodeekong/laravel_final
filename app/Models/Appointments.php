@@ -4,26 +4,34 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Appointment extends Model
+class Appointments extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'patient_id',
         'doctor_id',
-        'appointment_date',
+        'date',
         'status',
+        'patient_id',
     ];
 
-    // Relationship with Patient
     public function patient()
     {
-        return $this->belongsTo(Patients::class);
+        return $this->belongsTo(Patients::class, 'patient_id', 'patient_id');
     }
 
-    // Relationship with Doctor (User Model)
     public function doctor()
     {
-        return $this->belongsTo(User::class, 'doctor_id');
+        return $this->belongsTo(Rosters::class, 'doctor_id');
     }
 }
+
+
+// use App\Models\Appointment;
+
+// Appointments::create([
+//     'patient_id' => 80622, // Ensure this patient_id exists in the patients table 
+//     'doctor_id' => 39,  // Valid doctor ID 
+//     'date' => '2024-12-03',
+//     'status' => 'upcoming',
+// ]);

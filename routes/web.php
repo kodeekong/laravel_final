@@ -10,18 +10,14 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\AppointmentController;
 
-// Route to display the welcome page
-
 Route::get('/', function () {
     return view('welcome');
 });
 
-// Authentication routes (not protected by auth)
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Route to the dashboard, protected by 'auth' middleware (accessible only to logged-in users)
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
 
 // Home route (accessible only to authenticated users)
@@ -74,13 +70,11 @@ Route::get('/employees', function () {
 Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
 Route::post('/employees/update-salary', [EmployeeController::class, 'updateSalary'])->name('employees.update-salary');
 
-
-//appointments 
+//Appointment routes
 Route::middleware(['auth', 'role:Admin|Supervisor'])->group(function () {
     Route::get('appointments/create', [AppointmentController::class, 'create'])->name('appointments.create');
     Route::post('appointments/store', [AppointmentController::class, 'store'])->name('appointments.store');
 });
-
 
 Route::get('/patients', function () {
     return view('patients');
