@@ -1,10 +1,9 @@
 <?php
-
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Patients;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class PatientController extends Controller
@@ -60,4 +59,40 @@ class PatientController extends Controller
             'dinner' => '',
         ]);
     }
+
+    public function index(Request $request)
+{
+    $query = \App\Models\User::where('role', 'Patient')
+        ->join('patients', 'users.id', '=', 'patients.user_id') // Join with patients table to get `admission_date`
+        ->select(
+            'users.id',
+            \DB::raw("CONCAT(users.first_name, ' ', users.last_name) as name"), // Combine first and last name
+            \DB::raw("TIMESTAMPDIFF(YEAR, users.date_of_birth, CURDATE()) as age"), // Calculate age
+            'users.emergency_contact',
+            'users.relation_to_emergency',
+            'patients.admission_date'
+        );
+
+    // Apply filters if necessary
+    if ($request->filled('name')) {
+        $query->where(\DB::raw("CONCAT(users.first_name, ' ', users.last_name)"), 'like', '%' . $request->name . '%');
+    }
+
+    if ($request->filled('age')) {
+        $query->where(\DB::raw("TIMESTAMPDIFF(YEAR, users.date_of_birth, CURDATE())"), $request->age);
+    }
+
+    if ($request->filled('emergency_contact')) {
+        $query->where('users.emergency_contact', 'like', '%' . $request->emergency_contact . '%');
+    }
+
+    if ($request->filled('admission_date')) {
+        $query->whereDate('patients.admission_date', $request->admission_date);
+    }
+
+    $patients = $query->paginate(10); // Paginate results
+
+    return view('admin.patients', compact('patients'));
+}
+
 }
