@@ -24,8 +24,8 @@ class Roster extends Model
 
     public function caregivers()
     {
-        return $this->hasMany(User::class, 'id', 'caregiver_ids');
-
+        return User::whereIn('id', json_decode($this->caregiver_ids ?? '[]'))->get();
     }
+
 }
 

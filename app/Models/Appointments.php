@@ -9,6 +9,7 @@ class Appointments extends Model
     use HasFactory;
 
     protected $fillable = [
+        'id',
         'doctor_id',
         'date',
         'status',
@@ -22,16 +23,8 @@ class Appointments extends Model
 
     public function doctor()
     {
-        return $this->belongsTo(Rosters::class, 'doctor_id');
+        return $this->belongsTo(Roster::class, 'doctor_id');
     }
 }
 
 
-// use App\Models\Appointment;
-
-// Appointments::create([
-//     'patient_id' => 80622, // Ensure this patient_id exists in the patients table 
-//     'doctor_id' => 39,  // Valid doctor ID 
-//     'date' => '2024-12-03',
-//     'status' => 'upcoming',
-// ]);

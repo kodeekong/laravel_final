@@ -6,6 +6,10 @@ use App\Http\Controllers\AdminReportController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PatientAdditionalController;
+use App\Http\Controllers\AppointmentController;
+
+
 
 // Authentication Routes
 Route::get('/home', [AuthController::class, 'showHome'])->name('home');
@@ -37,3 +41,6 @@ Route::post('/patients/store', [PatientController::class, 'store'])->name('patie
 // Employee Routes
 Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
 Route::post('/employees/update-salary', [EmployeeController::class, 'updateSalary'])->name('employees.updateSalary');
+
+
+// Route::post('appointments', [AppointmentController::class, 'store']);

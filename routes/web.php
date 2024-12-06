@@ -9,6 +9,8 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\RosterController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -74,6 +76,15 @@ Route::post('/employees/update-salary', [EmployeeController::class, 'updateSalar
 Route::middleware(['auth', 'role:Admin|Supervisor'])->group(function () {
     Route::get('appointments/create', [AppointmentController::class, 'create'])->name('appointments.create');
     Route::post('appointments/store', [AppointmentController::class, 'store'])->name('appointments.store');
+});
+
+//new roster routes
+Route::get('rosters', [RosterController::class, 'index'])->name('rosters.index');
+
+// Admin/Supervisor only
+Route::prefix('admin')->middleware(['auth', 'role:Admin|Supervisor'])->group(function () {
+    Route::get('rosters/create', [RosterController::class, 'create'])->name('admin.rosters.create');
+    Route::post('rosters', [RosterController::class, 'store'])->name('admin.rosters.store');
 });
 
 Route::get('/patients', function () {
