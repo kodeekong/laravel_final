@@ -9,7 +9,6 @@
 <body>
 <div class="container mt-5">
     <h2>List of Employees</h2>
-
     <form method="GET" action="{{ route('admin.employees') }}" class="mb-4">
         <div class="form-row">
             <div class="form-group col-md-3">
@@ -56,11 +55,11 @@
                 <td>${{ number_format($employee->salary, 2) }}</td>
                 @if(auth()->user()->role == 'Admin')
                     <td>
-                        <button type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#updateSalaryModal-{{ $employee->id }}">
+                        <button type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#updateSalaryModal-{{ $employee->emp_id }}">
                             Update Salary
                         </button>
 
-                        <div class="modal fade" id="updateSalaryModal-{{ $employee->id }}" tabindex="-1" role="dialog" aria-labelledby="updateSalaryLabel" aria-hidden="true">
+                        <div class="modal fade" id="updateSalaryModal-{{ $employee->emp_id }}" tabindex="-1" role="dialog" aria-labelledby="updateSalaryLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <form method="POST" action="{{ route('admin.employees.updateSalary') }}">
                                     @csrf
@@ -72,7 +71,7 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <input type="hidden" name="emp_id" value="{{ $employee->id }}">
+                                            <input type="hidden" name="emp_id" value="{{ $employee->emp_id }}">
                                             <div class="form-group">
                                                 <label for="salary">New Salary</label>
                                                 <input type="number" id="salary" name="salary" class="form-control" required>
@@ -96,6 +95,8 @@
         @endforelse
         </tbody>
     </table>
+    <a href="{{ route('dashboard') }}" class="btn btn-primary mb-3">Back to Dashboard</a>
+
 
     <div class="d-flex justify-content-center">
         {{ $employeesPaginator->appends(request()->query())->links() }}
