@@ -82,16 +82,23 @@ class AuthController extends Controller
     ]);
 
     if ($user->role !== 'Patient') {
-        $lastEmployee = Employees::orderBy('emp_id', 'desc')->first(); 
-        $emp_id = $lastEmployee ? $lastEmployee->emp_id + 1 : 1000; 
-
+        $lastEmployee = Employees::orderBy('emp_id', 'desc')->first();
+        $emp_id = $lastEmployee ? $lastEmployee->emp_id + 1 : 1000;
+    
+        $salary = match ($user->role) {
+            'Doctor' => 100000,
+            'Admin' => 60000,
+            default => 40000,
+        };
+    
         Employees::create([
             'user_id' => $user->id,
-            'role' => $request->role, 
-            'emp_id' => $emp_id, 
-            'salary' => 50000, 
+            'role' => $request->role,
+            'emp_id' => $emp_id,
+            'salary' => $salary,
         ]);
     }
+    
 
     if ($user->role === 'Patient') {
         Patients::create([
