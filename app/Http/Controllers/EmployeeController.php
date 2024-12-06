@@ -31,7 +31,6 @@ class EmployeeController extends Controller
 {
     $query = Employees::query();
 
-    // Apply filters if necessary
     if ($request->filled('name')) {
         $query->where('first_name', 'like', '%' . $request->name . '%')
               ->orWhere('last_name', 'like', '%' . $request->name . '%');
@@ -45,15 +44,12 @@ class EmployeeController extends Controller
         $query->where('salary', $request->salary);
     }
 
-    // Fetch all employees using get()
     $employees = $query->get();
 
-    // Pagination manually
-    $perPage = 10;  // Items per page
+    $perPage = 10; 
     $currentPage = LengthAwarePaginator::resolveCurrentPage();
     $currentItems = $employees->slice(($currentPage - 1) * $perPage, $perPage)->values();
 
-    // Create a LengthAwarePaginator instance manually
     $employeesPaginator = new LengthAwarePaginator(
         $currentItems,
         $employees->count(),
@@ -62,24 +58,22 @@ class EmployeeController extends Controller
         ['path' => LengthAwarePaginator::resolveCurrentPath()]
     );
 
-    // Pass $employeesPaginator to the view
     return view('admin.employees', compact('employeesPaginator'));
 }
 
 
 public function updateSalary(Request $request)
 {
-    // Ensure only admins can access this method
     if (auth()->user()->role !== 'Admin') {
         abort(403, 'Unauthorized action.');
     }
 
     $request->validate([
-        'emp_id' => 'required|exists:users,id',
+        'emp_id' => 'required|exists:employees,emp_id',
         'salary' => 'required|numeric|min:0',
     ]);
 
-    $employee = \App\Models\Employees::findOrFail($request->employee_id);
+    $employee = Employees::where('emp_id', $request->emp_id)->firstOrFail();
     $employee->salary = $request->salary;
     $employee->save();
 

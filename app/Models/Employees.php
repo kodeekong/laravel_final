@@ -10,12 +10,12 @@ class Employees extends Model
     use HasFactory;
 
     protected $fillable = [
+        'id',
         'user_id',
         'emp_id',
         'role',
         'salary'];
 
-    // Define the relationship to the User model
     public function user()
     {
         return $this->belongsTo(User::class);
