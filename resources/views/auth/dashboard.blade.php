@@ -13,24 +13,28 @@
 
         <p>You are logged in as: {{ auth()->user()->role }}</p>
 
-<!-- For Admin and Supervisor only -->
+        <!-- For Admin and Supervisor only -->
         @if(auth()->check() && (auth()->user()->role === 'Admin' || auth()->user()->role === 'Supervisor'))
             <div class="mb-4">
-            <a href="{{ route('admin.approvals') }}" class="btn btn-primary">Go to Approval Page</a>
-            <a href="{{ route('admin.report') }}" class="btn btn-secondary">Missed Activities Report</a>
-            <a href="{{ route('appointments.create') }}" class="btn btn-info">Create Appointment</a>
-            <a href="{{ route('admin.employees') }}" class="btn btn-primary">Employee salaries</a>
-            @endif
-        @if(auth()->check() && auth()->user()->role === 'Admin')
-            <a href="{{ route('admin.roles.create') }}" class="btn btn-primary">Create Roles</a>
-            @endif
-            <!-- Patient Information link can be dynamic when you want to manage patient info -->
-            @if(auth()->check() && auth()->user()->role === 'Patient')
-            <a href="{{ route('admin.additional_info', ['patient_id' => 1]) }}" class="btn btn-info">Patient Information</a>
-        @if(auth()->check() && (auth()->user()->role === 'Admin' || auth()->user()->role === 'Supervisor' || auth()->user()->role === 'Doctor' || auth()->user()->role === 'Caregiver'))
-            <a href="{{ route('admin.patients.index') }}" class="btn btn-info">List of patients</a>
-            @endif
-            </div>
+
+                <a href="{{ route('rosters.index') }}" class="btn btn-primary">View Roster List</a>
+
+            
+                <!-- Admin specific links -->
+                @if(auth()->check() && auth()->user()->role === 'Admin')
+                    <a href="{{ route('admin.approvals') }}" class="btn btn-primary">Go to Approval Page</a>
+                    <a href="{{ route('admin.roles.create') }}" class="btn btn-primary">Create Roles</a>
+                @endif
+
+                <!-- Shared Admin/Supervisor links -->
+                <a href="{{ route('admin.report') }}" class="btn btn-secondary">Missed Activities Report</a>
+                <a href="{{ route('admin.additional_info', ['patient_id' => 1]) }}" class="btn btn-info">Patient Information</a>
+                <a href="{{ route('appointments.create') }}" class="btn btn-info">Create Appointment</a>
+
+                <!-- Roster Management link (visible to Admin and Supervisor) -->
+                <a href="{{ route('admin.rosters.create') }}" class="btn btn-info">Create New Roster</a>
+                </div>
+
         @endif
 
         <!-- Logout Form -->
