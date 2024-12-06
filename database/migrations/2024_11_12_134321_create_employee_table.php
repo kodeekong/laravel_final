@@ -12,21 +12,21 @@ return new class extends Migration
     public function up()
     {
         Schema::create('employees', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->string('emp_id')->unique();
+            $table->id(); // This creates the primary key 'id' (auto-incrementing)
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Foreign key referencing users
+            $table->bigIncrements('emp_id')->unique(); // Create unique auto-incrementing emp_id
             $table->string('role');
-            $table->decimal('salary', 10, 2)->nullable();
-            $table->timestamps();
+            $table->decimal('salary', 10, 2)->nullable(); // Nullable salary field
+            $table->timestamps(); // Timestamps for created_at and updated_at
         });
     }
-
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('employee');
+        Schema::dropIfExists('employees'); // Corrected table name
     }
 };
+

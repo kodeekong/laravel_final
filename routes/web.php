@@ -64,19 +64,12 @@ Route::middleware(['auth', 'role:Patient'])->group(function () {
 Route::get('/patients/create', [PatientController::class, 'create'])->name('patients.create');
 Route::post('/patients/store', [PatientController::class, 'store'])->name('patients.store');
 
-// Employee Routes
-Route::get('/employees', function () {
-    return view('employee.index');
-});
-
-Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
-Route::post('/employees/update-salary', [EmployeeController::class, 'updateSalary'])->name('employees.update-salary');
-
 //Appointment routes
 Route::middleware(['auth', 'role:Admin|Supervisor'])->group(function () {
     Route::get('appointments/create', [AppointmentController::class, 'create'])->name('appointments.create');
     Route::post('appointments/store', [AppointmentController::class, 'store'])->name('appointments.store');
 });
+
 
 //new roster routes
 Route::get('rosters', [RosterController::class, 'index'])->name('rosters.index');
@@ -90,6 +83,15 @@ Route::prefix('admin')->middleware(['auth', 'role:Admin|Supervisor'])->group(fun
 Route::get('/patients', function () {
     return view('patients');
 })->name('patients');
+
+Route::middleware(['auth', 'role:Admin|Supervisor|Doctor|Caregiver'])->group(function () {
+    Route::get('/admin/patients', [PatientController::class, 'index'])->name('admin.patients.index');
+});
+
+// Employee Routes
+Route::get('admin/employees', [EmployeeController::class, 'emp_index'])->name('admin.employees');
+Route::post('admin/employees/update-salary', [EmployeeController::class, 'updateSalary'])->name('admin.employees.updateSalary');
+
 
 Route::get('/payment', function () {
     return view('payment');
