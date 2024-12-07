@@ -32,6 +32,30 @@
             @endif
             </div>
 
+        <!-- For Admin and Supervisor only -->
+        @if(auth()->check() && (auth()->user()->role === 'Admin' || auth()->user()->role === 'Supervisor'))
+            <div class="mb-4">
+
+                <a href="{{ route('rosters.index') }}" class="btn btn-primary">View Roster List</a>
+
+            
+                <!-- Admin specific links -->
+                @if(auth()->check() && auth()->user()->role === 'Admin')
+                    <a href="{{ route('admin.approvals') }}" class="btn btn-primary">Go to Approval Page</a>
+                    <a href="{{ route('admin.roles.create') }}" class="btn btn-primary">Create Roles</a>
+                @endif
+
+                <!-- Shared Admin/Supervisor links -->
+                <a href="{{ route('admin.report') }}" class="btn btn-secondary">Missed Activities Report</a>
+                <a href="{{ route('admin.additional_info', ['patient_id' => 1]) }}" class="btn btn-info">Patient Information</a>
+                <a href="{{ route('appointments.create') }}" class="btn btn-info">Create Appointment</a>
+
+                <!-- Roster Management link (visible to Admin and Supervisor) -->
+                <a href="{{ route('admin.rosters.create') }}" class="btn btn-info">Create New Roster</a>
+                </div>
+
+        @endif
+
         <form action="{{ route('logout') }}" method="POST">
             @csrf
             <button type="submit" class="btn btn-danger">Logout</button>

@@ -11,7 +11,7 @@ use App\Http\Controllers\PatientController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\PrescriptionController;
 use App\Http\Controllers\DoctorContrtoller;
-
+use App\Http\Controllers\RosterController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -71,6 +71,20 @@ Route::middleware(['auth', 'role:Admin|Supervisor'])->group(function () {
     Route::post('appointments/store', [AppointmentController::class, 'store'])->name('appointments.store');
 });
 
+
+//new roster routes
+Route::get('rosters', [RosterController::class, 'index'])->name('rosters.index');
+
+// Admin/Supervisor only
+Route::prefix('admin')->middleware(['auth', 'role:Admin|Supervisor'])->group(function () {
+    Route::get('rosters/create', [RosterController::class, 'create'])->name('admin.rosters.create');
+    Route::post('rosters', [RosterController::class, 'store'])->name('admin.rosters.store');
+});
+
+Route::get('/patients', function () {
+    return view('patients');
+})->name('patients');
+
 Route::middleware(['auth', 'role:Admin|Supervisor|Doctor|Caregiver'])->group(function () {
     Route::get('/admin/patients', [PatientController::class, 'index'])->name('admin.patients.index');
 });
@@ -91,7 +105,6 @@ Route::middleware(['auth', 'role:Doctor'])->group(function () {
     // New Prescription for Patient
     Route::post('/doctor/patient/{patient_id}/prescription', [DoctorContrtoller::class, 'createPrescription'])->name('doctor.createPrescription');
 });
-
 
 Route::get('/payment', function () {
     return view('payment');
