@@ -9,6 +9,9 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\PrescriptionController;
+use App\Http\Controllers\DoctorContrtoller;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -75,6 +78,20 @@ Route::middleware(['auth', 'role:Admin|Supervisor|Doctor|Caregiver'])->group(fun
 // Employee Routes
 Route::get('admin/employees', [EmployeeController::class, 'emp_index'])->name('admin.employees');
 Route::post('admin/employees/update-salary', [EmployeeController::class, 'updateSalary'])->name('admin.employees.updateSalary');
+
+Route::post('/prescriptions/{patient_id}', [PrescriptionController::class, 'store'])->name('prescriptions.store');
+
+Route::middleware(['auth', 'role:Doctor'])->group(function () {
+    // Doctor's Home Page
+    Route::get('/doctor/home', [DoctorContrtoller::class, 'index'])->name('doctor.home');
+
+    // Patient Prescription Page
+    Route::get('/doctor/patient/{patient_id}', [DoctorContrtoller::class, 'viewPatient'])->name('doctor.viewPatient');
+    
+    // New Prescription for Patient
+    Route::post('/doctor/patient/{patient_id}/prescription', [DoctorContrtoller::class, 'createPrescription'])->name('doctor.createPrescription');
+});
+
 
 Route::get('/payment', function () {
     return view('payment');

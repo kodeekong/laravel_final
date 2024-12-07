@@ -28,11 +28,3 @@ class Appointments extends Model
 }
 
 
-// use App\Models\Appointment;
-
-// Appointments::create([
-//     'patient_id' => 80622, // Ensure this patient_id exists in the patients table 
-//     'doctor_id' => 39,  // Valid doctor ID 
-//     'date' => '2024-12-03',
-//     'status' => 'upcoming',
-// ]);
