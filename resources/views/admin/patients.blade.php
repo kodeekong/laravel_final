@@ -62,6 +62,8 @@
             @endforelse
         </tbody>
     </table>
+    <a href="{{ route('dashboard') }}" class="btn btn-danger">Back to dashboard</a>
+
 
     <div class="d-flex justify-content-center">
         {{ $patients->links() }}

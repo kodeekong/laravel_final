@@ -61,38 +61,44 @@ class PatientController extends Controller
     }
 
     public function index(Request $request)
-{
-    $query = \App\Models\User::where('role', 'Patient')
-        ->join('patients', 'users.id', '=', 'patients.user_id') // Join with patients table to get `admission_date`
-        ->select(
-            'users.id',
-            \DB::raw("CONCAT(users.first_name, ' ', users.last_name) as name"), // Combine first and last name
-            \DB::raw("TIMESTAMPDIFF(YEAR, users.date_of_birth, CURDATE()) as age"), // Calculate age
-            'users.emergency_contact',
-            'users.relation_to_emergency',
-            'patients.admission_date'
-        );
-
-    // Apply filters if necessary
-    if ($request->filled('name')) {
-        $query->where(\DB::raw("CONCAT(users.first_name, ' ', users.last_name)"), 'like', '%' . $request->name . '%');
+    {
+        // Start the query on the users table, joining with the patients table
+        $query = \App\Models\User::where('role', 'Patient')
+            ->join('patients', 'users.id', '=', 'patients.user_id') // Join with patients table to get `admission_date`
+            ->select(
+                'users.id',
+                \DB::raw("CONCAT(users.first_name, ' ', users.last_name) as name"), // Combine first and last name
+                \DB::raw("TIMESTAMPDIFF(YEAR, users.date_of_birth, CURDATE()) as age"), // Calculate age
+                'users.emergency_contact',
+                'users.relation_to_emergency',
+                'patients.admission_date',
+                'users.status' // Include status from the users table
+            );
+        
+        // Apply filters based on user input
+        if ($request->filled('name')) {
+            $query->where(\DB::raw("CONCAT(users.first_name, ' ', users.last_name)"), 'like', '%' . $request->name . '%');
+        }
+        
+        if ($request->filled('age')) {
+            $query->where(\DB::raw("TIMESTAMPDIFF(YEAR, users.date_of_birth, CURDATE())"), $request->age);
+        }
+        
+        if ($request->filled('emergency_contact')) {
+            $query->where('users.emergency_contact', 'like', '%' . $request->emergency_contact . '%');
+        }
+        
+        if ($request->filled('admission_date')) {
+            $query->whereDate('patients.admission_date', $request->admission_date);
+        }
+        
+        // Filter to only show approved patients based on the users' status field
+        $patients = $query->where('users.status', 'approved')->paginate(10); // Filtering based on 'status' in the users table
+        
+        return view('admin.patients', compact('patients'));
     }
-
-    if ($request->filled('age')) {
-        $query->where(\DB::raw("TIMESTAMPDIFF(YEAR, users.date_of_birth, CURDATE())"), $request->age);
-    }
-
-    if ($request->filled('emergency_contact')) {
-        $query->where('users.emergency_contact', 'like', '%' . $request->emergency_contact . '%');
-    }
-
-    if ($request->filled('admission_date')) {
-        $query->whereDate('patients.admission_date', $request->admission_date);
-    }
-
-    $patients = $query->paginate(10); // Paginate results
-
-    return view('admin.patients', compact('patients'));
-}
+    
+    
+    
 
 }
