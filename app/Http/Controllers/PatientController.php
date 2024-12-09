@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use App\Models\Patients;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
 
 class PatientController extends Controller
 {
@@ -67,8 +69,8 @@ class PatientController extends Controller
             ->join('patients', 'users.id', '=', 'patients.user_id') // Join with patients table to get `admission_date`
             ->select(
                 'users.id',
-                \DB::raw("CONCAT(users.first_name, ' ', users.last_name) as name"), // Combine first and last name
-                \DB::raw("TIMESTAMPDIFF(YEAR, users.date_of_birth, CURDATE()) as age"), // Calculate age
+                DB::raw("CONCAT(users.first_name, ' ', users.last_name) as name"), // Combine first and last name
+                DB::raw("TIMESTAMPDIFF(YEAR, users.date_of_birth, CURDATE()) as age"), // Calculate age
                 'users.emergency_contact',
                 'users.relation_to_emergency',
                 'patients.admission_date',
@@ -77,11 +79,11 @@ class PatientController extends Controller
         
         // Apply filters based on user input
         if ($request->filled('name')) {
-            $query->where(\DB::raw("CONCAT(users.first_name, ' ', users.last_name)"), 'like', '%' . $request->name . '%');
+            $query->where(DB::raw("CONCAT(users.first_name, ' ', users.last_name)"), 'like', '%' . $request->name . '%');
         }
         
         if ($request->filled('age')) {
-            $query->where(\DB::raw("TIMESTAMPDIFF(YEAR, users.date_of_birth, CURDATE())"), $request->age);
+            $query->where(DB::raw("TIMESTAMPDIFF(YEAR, users.date_of_birth, CURDATE())"), $request->age);
         }
         
         if ($request->filled('emergency_contact')) {

@@ -14,13 +14,12 @@ return new class extends Migration
         Schema::create('employees', function (Blueprint $table) {
             $table->id(); // This creates the primary key 'id' (auto-incrementing)
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Foreign key referencing users
-            $table->bigIncrements('emp_id')->unique(); // Create unique auto-incrementing emp_id
+            $table->bigInteger('emp_id')->unique(); // Non-auto-incrementing unique 'emp_id'
             $table->string('role');
             $table->decimal('salary', 10, 2)->nullable(); // Nullable salary field
             $table->timestamps(); // Timestamps for created_at and updated_at
         });
     }
-
     /**
      * Reverse the migrations.
      */

@@ -63,7 +63,7 @@ class AuthController extends Controller
         'phone' => 'required|string|max:15',
         'date_of_birth' => 'required|date',
         'password' => 'required|string|min:4|confirmed', // Password confirmation
-        'role' => 'required|string|in:Patient,Family Member,Admin,Supervisor,Doctor',
+        'role' => 'required|string|in:Patient,Family Member,Admin,Supervisor,Doctor,Caregiver', // Add Caregiver here
         'family_code' => 'nullable|string|max:50',
         'relation_to_emergency' => 'nullable|string|max:255',
         'emergency_contact' => 'nullable|string|max:15',
@@ -99,13 +99,28 @@ class AuthController extends Controller
         // Assign the user ID to the corresponding field in the rosters table
         $roleId = $user->id; // We use the user's ID here
 
-        // Insert into the rosters table
-        Roster::create([
+        // Prepare the roster data array
+        $rosterData = [
             'date' => now(), // Set default date to now
-            'supervisor_id' => $user->role === 'Supervisor' ? $roleId : null, // Assign supervisor ID if Supervisor
-            'doctor_id' => $user->role === 'Doctor' ? $roleId : null, // Assign doctor ID if Doctor
-            'caregiver_ids' => $user->role === 'Caregiver' ? json_encode([$roleId]) : null, // Assign caregiver IDs if Caregiver
-        ]);
+        ];
+
+        // For Supervisor and Doctor, add the corresponding ID
+        if ($user->role === 'Supervisor') {
+            $rosterData['supervisor_id'] = $roleId;
+        }
+
+        if ($user->role === 'Doctor') {
+            $rosterData['doctor_id'] = $roleId;
+        }
+
+        // For Caregiver, handle the caregiver_ids field as a single number
+        if ($user->role === 'Caregiver') {
+            // If no roster exists, create a new one with just the caregiver's ID as a number
+            $rosterData['caregiver_ids'] = $roleId; // Store caregiver as a single number, not an array
+        }
+
+        // Insert the roster data
+        Roster::create($rosterData);
     }
 
     // Log the user in after registration
@@ -114,6 +129,7 @@ class AuthController extends Controller
     // Redirect to the dashboard after successful registration
     return redirect()->route('dashboard')->with('success', 'Registration successful!');
 }
+
 
 }
 ?>

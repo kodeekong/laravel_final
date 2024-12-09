@@ -68,11 +68,12 @@ Route::middleware(['auth', 'role:Admin|Supervisor'])->group(function () {
     Route::post('appointments/store', [AppointmentController::class, 'store'])->name('appointments.store');
 });
 //new roster routes
-Route::get('rosters', [RosterController::class, 'index'])->name('rosters.index');
+Route::get('roster', [RosterController::class, 'index'])->name('rosters.index');
+
 // Admin/Supervisor only
 Route::prefix('admin')->middleware(['auth', 'role:Admin|Supervisor'])->group(function () {
-    Route::get('rosters/create', [RosterController::class, 'create'])->name('admin.rosters.create');
-    Route::post('rosters', [RosterController::class, 'store'])->name('admin.rosters.store');
+    Route::get('roster/create', [RosterController::class, 'create'])->name('admin.rosters.create');
+    Route::post('roster', [RosterController::class, 'store'])->name('admin.rosters.store');
 });
 Route::get('/patients', function () {
     return view('patients');
