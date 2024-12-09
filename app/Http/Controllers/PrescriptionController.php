@@ -18,17 +18,17 @@ class PrescriptionController extends Controller
             'afternoon_med' => 'nullable|string',
             'night_med' => 'nullable|string',
         ]);
-    
+
         // Get today's date and check if the appointment is today
         $appointment = Appointments::where('patient_id', $patient_id)
                                   ->where('doctor_id', auth()->user()->id)
                                   ->where('date', Carbon::today())
                                   ->first();
-    
+
         if (!$appointment) {
             return redirect()->back()->withErrors(['error' => 'Cannot create prescription, appointment is not today.']);
         }
-    
+
         // Create the prescription if the appointment is today
         Prescriptions::create([
             'patient_id' => $patient_id,
@@ -38,8 +38,8 @@ class PrescriptionController extends Controller
             'afternoon_med' => $request->afternoon_med,
             'night_med' => $request->night_med,
         ]);
-    
+
         return redirect()->route('doctor.viewPatient', $patient_id)->with('success', 'Prescription added successfully');
     }
-    
+
 }

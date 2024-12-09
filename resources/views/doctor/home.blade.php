@@ -22,13 +22,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($upcomingAppointments as $appointment)
-                            <tr>
-                                <td>{{ $appointment->patient->name }}</td>
-                                <td>{{ \Carbon\Carbon::parse($appointment->date)->format('Y-m-d H:i') }}</td>
-                                <td><a href="{{ route('doctor.viewPatient', $appointment->patient->patient_id) }}" class="btn btn-info">View</a></td>
-                            </tr>
-                        @endforeach
+                    @foreach ($upcomingAppointments as $appointment)
+                        <tr>
+                            <td>
+                                {{ $appointment->patient->user->first_name ?? 'N/A' }} 
+                                {{ $appointment->patient->user->last_name ?? 'N/A' }}
+                            </td>
+                            <td>{{ \Carbon\Carbon::parse($appointment->date)->format('Y-m-d ') }}</td>
+                            <td>
+                                <a href="{{ route('doctor.viewPatient', $appointment->patient->patient_id) }}" class="btn btn-info">View</a>
+                            </td>
+                        </tr>
+                    @endforeach
+
                     </tbody>
                 </table>
             </div>
@@ -55,7 +61,7 @@
         </div>
 
         <div class="mt-4">
-            <a href="{{ route('logout') }}" class="btn btn-danger">Logout</a>
+            <a href="{{ route('dashboard') }}" class="btn btn-danger">Back to dashboard</a>
         </div>
     </div>
 

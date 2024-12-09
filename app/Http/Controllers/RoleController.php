@@ -37,4 +37,36 @@ class RoleController extends Controller
         // Redirect to the role index page with success message
         return redirect()->route('admin.roles.index')->with('success', 'Role created successfully.');
     }
+    public function edit($id)
+{
+    // Find the role by id
+    $role = Role::findOrFail($id);
+    return view('admin.roles.edit', compact('role'));  // Display the form for editing the role
+}
+public function update(Request $request, $id)
+{
+    // Validate the input
+    $request->validate([
+        'role_name' => 'required|string|max:255',
+        'access_level' => 'required|string|max:255',
+    ]);
+
+    // Find and update the role
+    $role = Role::findOrFail($id);
+    $role->update([
+        'role_name' => $request->role_name,
+        'access_level' => $request->access_level,
+    ]);
+
+    return redirect()->route('admin.roles.index')->with('success', 'Role updated successfully!');
+}
+public function destroy($id)
+{
+    // Find and delete the role
+    $role = Role::findOrFail($id);
+    $role->delete();
+
+    return redirect()->route('admin.roles.index')->with('success', 'Role deleted successfully!');
+}
+
 }
