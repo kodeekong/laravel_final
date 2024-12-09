@@ -23,8 +23,9 @@ class Appointments extends Model
 
     public function doctor()
     {
-        return $this->belongsTo(Roster::class, 'doctor_id');
+        return $this->belongsTo(Rosters::class, 'doctor_id');
     }
+    
 }
 
 

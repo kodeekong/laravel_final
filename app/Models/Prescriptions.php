@@ -1,14 +1,15 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
 class Prescriptions extends Model
 {
     use HasFactory;
 
     protected $fillable = [
+    
         'patient_id',
         'doctor_id',
         'comment',
@@ -24,6 +25,6 @@ class Prescriptions extends Model
 
     public function doctor()
     {
-        return $this->belongsTo(Rosters::class, 'doctor_id');
+        return $this->belongsTo(Roster::class, 'doctor_id');
     }
 }
