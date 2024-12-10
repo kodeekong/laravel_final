@@ -9,9 +9,9 @@
 <body>
     <div class="container mt-4">
 
-        <h1>Welcome to your Dashboard, {{ auth()->user()->first_name }}!</h1>
+        <h2>Welcome {{ auth()->user()->first_name }}!</h2>
 
-        <h3>You are logged in as: {{ auth()->user()->role }}</h3>
+        <h5>You are {{ auth()->user()->role }}</h5>
 
         @if(auth()->check() && (auth()->user()->role === 'Admin' || auth()->user()->role === 'Supervisor'))
             <div class="mb-4">

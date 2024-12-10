@@ -48,13 +48,14 @@ Route::middleware(['auth', 'role:Admin,Supervisor'])->group(function () {
 });
 // Admin-specific roles management routes, protected by 'auth' and 'role:admin'
 Route::prefix('admin')->name('admin.')
-    ->middleware(['auth', 'admin']) // Ensure 'admin' middleware is applied here
+    ->middleware(['auth', 'admin'])
     ->group(function () {
+        Route::get('/roles/index', [RoleController::class, 'index'])->name('roles.index');
         Route::get('/roles/create', [RoleController::class, 'create'])->name('roles.create');
         Route::post('/roles', [RoleController::class, 'store'])->name('roles.store');
-        Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
-        Route::resource('admin/roles', RoleController::class);
+        Route::resource('roles', RoleController::class);  
     });
+
 Route::middleware(['auth', 'role:Patient'])->group(function () {
     Route::get('/patient/home', [PatientController::class, 'home'])->name('patient.home');
 });
