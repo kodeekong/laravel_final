@@ -62,14 +62,13 @@ class AuthController extends Controller
         'email' => 'required|email|unique:users,email',
         'phone' => 'required|string|max:15',
         'date_of_birth' => 'required|date',
-        'password' => 'required|string|min:4|confirmed', // Password confirmation
-        'role' => 'required|string|in:Patient,Family Member,Admin,Supervisor,Doctor,Caregiver', // Add Caregiver here
+        'password' => 'required|string|min:4|confirmed', 
+        'role' => 'required|string|in:Patient,Family Member,Admin,Supervisor,Doctor',
+
         'family_code' => 'nullable|string|max:50',
         'relation_to_emergency' => 'nullable|string|max:255',
         'emergency_contact' => 'nullable|string|max:15',
     ]);
-
-    // Create the user
     $user = User::create([
         'first_name' => $request->first_name,
         'last_name' => $request->last_name,
@@ -77,34 +76,34 @@ class AuthController extends Controller
         'phone' => $request->phone,
         'date_of_birth' => $request->date_of_birth,
         'password' => Hash::make($request->password),
-        'family_code' => $request->family_code, // Only for Patients or Family Members
+        'family_code' => $request->family_code, 
         'role' => $request->role,
-        'relation_to_emergency' => $request->relation_to_emergency, // Only for Patients or Family Members
-        'emergency_contact' => $request->emergency_contact, // Only for Patients or Family Members
+        'relation_to_emergency' => $request->relation_to_emergency, 
+        'emergency_contact' => $request->emergency_contact,
     ]);
 
-    // After creating the user, check if the user is a Patient
     if ($user->role === 'Patient') {
-        // Insert into the patients table
         Patients::create([
             'user_id' => $user->id,
-            'patient_id' => rand(10000, 99999), // Generate unique patient ID
-            'admission_date' => now(), // Set current date as admission date
-            'group' => 'general', // Or you can leave this null or based on your logic
+            'patient_id' => rand(10000, 99999), 
+            'admission_date' => now(), 
+            'group' => 'general', 
         ]);
     }
 
-    // Handle the roles for Doctor, Supervisor, or Caregiver
     if (in_array($user->role, ['Doctor', 'Caregiver', 'Supervisor'])) {
-        // Assign the user ID to the corresponding field in the rosters table
-        $roleId = $user->id; // We use the user's ID here
+        $roleId = $user->id; 
 
-        // Prepare the roster data array
+        Roster::create([
+            'date' => now(), 
+            'supervisor_id' => $user->role === 'Supervisor' ? $roleId : null, 
+            'doctor_id' => $user->role === 'Doctor' ? $roleId : null, 
+            'caregiver_ids' => $user->role === 'Caregiver' ? json_encode([$roleId]) : null,
+        ]);
         $rosterData = [
-            'date' => now(), // Set default date to now
+            'date' => now(), 
         ];
 
-        // For Supervisor and Doctor, add the corresponding ID
         if ($user->role === 'Supervisor') {
             $rosterData['supervisor_id'] = $roleId;
         }
@@ -113,20 +112,15 @@ class AuthController extends Controller
             $rosterData['doctor_id'] = $roleId;
         }
 
-        // For Caregiver, handle the caregiver_ids field as a single number
         if ($user->role === 'Caregiver') {
-            // If no roster exists, create a new one with just the caregiver's ID as a number
-            $rosterData['caregiver_ids'] = $roleId; // Store caregiver as a single number, not an array
+            $rosterData['caregiver_ids'] = $roleId;
         }
 
-        // Insert the roster data
         Roster::create($rosterData);
     }
 
-    // Log the user in after registration
     auth()->login($user);
 
-    // Redirect to the dashboard after successful registration
     return redirect()->route('dashboard')->with('success', 'Registration successful!');
 }
 

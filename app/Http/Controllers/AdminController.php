@@ -6,10 +6,8 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    // Show list of users with 'pending' status
     public function showApprovals()
 {
-    // Fetch users who are not admins or supervisors and are pending approval
     $pendingUsers = User::where('status', 'pending')
                  ->whereNotIn('role', ['Admin', 'Supervisor'])
                  ->get();
@@ -21,16 +19,13 @@ class AdminController extends Controller
 
     public function approveUser(User $user)
 {
-    // Debug: Check if the User model is being received
     if (!$user) {
         return redirect()->route('admin.approvals')->with('error', 'User not found.');
     }
 
-    // Update user status to 'approved'
     $user->status = 'approved';
-    $result = $user->save(); // Save to the database
+    $result = $user->save(); 
 
-    // Debug: Check if the save operation succeeded
     if (!$result) {
         return redirect()->route('admin.approvals')->with('error', 'Failed to approve user.');
     }

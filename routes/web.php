@@ -86,7 +86,7 @@ Route::middleware(['auth', 'role:Admin|Supervisor|Doctor|Caregiver'])->group(fun
 Route::get('admin/employees', [EmployeeController::class, 'emp_index'])->name('admin.employees');
 Route::post('admin/employees/update-salary', [EmployeeController::class, 'updateSalary'])->name('admin.employees.updateSalary');
 
-Route::post('/prescriptions/{patient_id}', [PrescriptionController::class, 'store'])->name('prescriptions.store');
+// Route::post('/prescriptions/{patient_id}', [PrescriptionController::class, 'store'])->name('prescriptions.store');
 
 Route::middleware(['auth', 'role:Doctor'])->group(function () {
     // Doctor's Home Page
@@ -96,7 +96,7 @@ Route::middleware(['auth', 'role:Doctor'])->group(function () {
     Route::get('/doctor/patient/{patient_id}', [DoctorContrtoller::class, 'viewPatient'])->name('doctor.viewPatient');
 
     // New Prescription for Patient
-    Route::post('/doctor/patient/{patient_id}/prescription', [DoctorContrtoller::class, 'createPrescription'])->name('doctor.createPrescription');
+    Route::post('/doctor/patient/{patient_id}/prescription', [DoctorContrtoller::class, 'store'])->name('prescriptions.store');
 });
 
 Route::get('/payment', function () {

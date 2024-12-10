@@ -8,10 +8,8 @@ use Carbon\Carbon;
 
 class PrescriptionController extends Controller
 {
-    // Create a new prescription for a patient
     public function store(Request $request, $patient_id)
     {
-        // Validate the incoming data
         $request->validate([
             'comment' => 'required|string',
             'morning_med' => 'nullable|string',
@@ -29,7 +27,6 @@ class PrescriptionController extends Controller
             return redirect()->back()->withErrors(['error' => 'Cannot create prescription, appointment is not today.']);
         }
 
-        // Create the prescription if the appointment is today
         Prescriptions::create([
             'patient_id' => $patient_id,
             'doctor_id' => auth()->user()->id,

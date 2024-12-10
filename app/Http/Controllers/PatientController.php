@@ -64,20 +64,19 @@ class PatientController extends Controller
 
     public function index(Request $request)
     {
-        // Start the query on the users table, joining with the patients table
         $query = \App\Models\User::where('role', 'Patient')
             ->join('patients', 'users.id', '=', 'patients.user_id') // Join with patients table to get `admission_date`
             ->select(
                 'users.id',
-                DB::raw("CONCAT(users.first_name, ' ', users.last_name) as name"), // Combine first and last name
-                DB::raw("TIMESTAMPDIFF(YEAR, users.date_of_birth, CURDATE()) as age"), // Calculate age
+                \DB::raw("CONCAT(users.first_name, ' ', users.last_name) as name"), 
+                \DB::raw("TIMESTAMPDIFF(YEAR, users.date_of_birth, CURDATE()) as age"), 
+
                 'users.emergency_contact',
                 'users.relation_to_emergency',
                 'patients.admission_date',
-                'users.status' // Include status from the users table
+                'users.status' 
             );
         
-        // Apply filters based on user input
         if ($request->filled('name')) {
             $query->where(DB::raw("CONCAT(users.first_name, ' ', users.last_name)"), 'like', '%' . $request->name . '%');
         }
@@ -94,8 +93,7 @@ class PatientController extends Controller
             $query->whereDate('patients.admission_date', $request->admission_date);
         }
         
-        // Filter to only show approved patients based on the users' status field
-        $patients = $query->where('users.status', 'approved')->paginate(10); // Filtering based on 'status' in the users table
+        $patients = $query->where('users.status', 'approved')->paginate(10); 
         
         return view('admin.patients', compact('patients'));
     }

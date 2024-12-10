@@ -24,31 +24,27 @@ class AppointmentController extends Controller
 
     public function store(Request $request)
 {
-    // Validate the incoming request to ensure doctor_id and patient_id exist in their respective tables
     $request->validate([
-        'doctor_id' => 'required|exists:rosters,doctor_id',  // Validate that doctor_id exists in rosters
-        'date' => 'required|date|after_or_equal:today',       // Ensure date is valid
-        'patient_id' => 'required|exists:patients,patient_id', // Ensure patient_id exists in patients table
+        'doctor_id' => 'required|exists:rosters,doctor_id', 
+        'date' => 'required|date|after_or_equal:today',      
+        'patient_id' => 'required|exists:patients,patient_id', 
     ]);
 
-    // Fetch patient using the patient_id
     $patient = Patients::where('patient_id', $request->patient_id)->first();
     if (!$patient) {
         return redirect()->back()->with('error', 'Patient not found.');
     }
 
-    // Fetch doctor from the roster using doctor_id
     $doctor = Roster::where('doctor_id', $request->doctor_id)->first();
     if (!$doctor) {
         return redirect()->back()->with('error', 'Doctor not found in the roster.');
     }
 
-    // Create the appointment if patient and doctor exist
     Appointments::create([
         'patient_id' => $patient->patient_id,
         'doctor_id' => $doctor->doctor_id,
         'date' => $request->date, 
-        'status' => 'upcoming',  // Default status for new appointments
+        'status' => 'upcoming',  
     ]);
 
     return redirect()->route('appointments.create')
