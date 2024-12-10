@@ -126,7 +126,6 @@
 <body>
 
 <div class="container">
-    <!-- Create Role Form -->
     <h1>Create Role</h1>
 
     <!-- Display success message -->
@@ -159,12 +158,6 @@
 <!-- Roles List -->
 <div class="container">
     <h1>Roles List</h1>
-
-    <!-- Display success message -->
-    @if(session('success'))
-        <div class="alert">{{ session('success') }}</div>
-    @endif
-
 
     <!-- Table to display roles -->
     <table>
