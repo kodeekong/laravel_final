@@ -68,8 +68,8 @@ class PatientController extends Controller
             ->join('patients', 'users.id', '=', 'patients.user_id') // Join with patients table to get `admission_date`
             ->select(
                 'users.id',
-                \DB::raw("CONCAT(users.first_name, ' ', users.last_name) as name"), 
-                \DB::raw("TIMESTAMPDIFF(YEAR, users.date_of_birth, CURDATE()) as age"), 
+                DB::raw("CONCAT(users.first_name, ' ', users.last_name) as name"), 
+                DB::raw("TIMESTAMPDIFF(YEAR, users.date_of_birth, CURDATE()) as age"), 
 
                 'users.emergency_contact',
                 'users.relation_to_emergency',

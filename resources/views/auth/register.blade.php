@@ -4,73 +4,110 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
+    <!-- Link to Bootstrap CSS for Styling -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
+            background: linear-gradient(to right, #7a6bcb, #6b9c8e); /* Blueish purple gradient */
+            color: #fff;
             font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
             display: flex;
             align-items: center;
             justify-content: center;
             height: 100vh;
             margin: 0;
+            padding: 20px;  /* Added padding to create space around the entire body */
         }
+
+        /* Main form container */
         .form-container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            max-width: 400px;
+            background-color: #fff;  /* Solid white background for the form */
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 400px; /* Adjust width for the register page */
             width: 100%;
-        }
-        .form-container h2 {
             text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow for depth */
+            margin: 20px 0; /* Add margin to prevent touching top and bottom */
+            max-height: 90vh; /* Ensure the form container doesn't overflow the viewport height */
+            overflow-y: auto; /* Make it scrollable if the content overflows */
+        }
+
+        /* Title Styling */
+        .form-container h2 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #333; /* Dark color for text */
             margin-bottom: 20px;
         }
+
+        /* Form Group Styling */
         .form-group {
             margin-bottom: 15px;
+            text-align: left;
         }
+
         .form-group label {
             display: block;
             margin-bottom: 5px;
-            font-weight: bold;
+            font-size: 1rem;
+            color: #333; /* Dark color for text */
         }
+
         .form-group input, .form-group select {
             width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
-            font-size: 14px;
+            font-size: 1rem;
+            color: #333;
         }
+
+        /* Button Styling */
         .form-buttons {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            justify-content: center;
+            gap: 20px;
             margin-top: 20px;
         }
-        .form-buttons button {
-            padding: 10px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        .form-buttons .ok-button {
-            background-color: #4CAF50;
-            color: #fff;
-        }
-        .form-buttons .cancel-button {
-            background-color: #f44336;
-            color: #fff;
-        }
-        .form-buttons a {
+
+        .form-buttons button, .form-buttons a {
+            padding: 10px 20px;
+            border-radius: 5px;
             text-decoration: none;
-            padding: 10px 15px;
-            background-color: #007BFF;
-            color: #fff;
-            border-radius: 4px;
-            font-size: 14px;
+            font-size: 1rem;
+            display: inline-block;
             text-align: center;
+            width: 140px;
         }
+
+        /* Register Button Styling (Submit) */
+        .form-buttons .ok-button {
+            background-color: #5c6bc0; /* Blue color */
+            color: #fff;
+            border: none;
+        }
+
+        .form-buttons .ok-button:hover {
+            background-color: #3f51b5; /* Darker blue on hover */
+        }
+
+        /* Login Button Styling (Cancel) */
+        .form-buttons a {
+            background-color: #4CAF50; /* Green color */
+            color: white;
+            text-align: center;
+            padding: 10px 20px;
+            display: inline-block;
+            width: 140px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .form-buttons a:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+
         .patient-info {
             display: none;
             margin-top: 20px;
@@ -79,6 +116,7 @@
             margin-bottom: 10px;
             font-size: 16px;
         }
+
     </style>
     <script>
         function togglePatientInfo() {
@@ -89,6 +127,7 @@
     </script>
 </head>
 <body>
+
 <div class="form-container">
     <h2>Register</h2>
     <form action="/register" method="POST" onsubmit="return validateForm()">
@@ -103,7 +142,6 @@
                 <option value="Supervisor">Supervisor</option>
                 <option value="Doctor">Doctor</option>
                 <option value="Caregiver">Caregiver</option>
-
             </select>
         </div>
 
@@ -136,6 +174,7 @@
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
         </div>
+        
         <div class="form-group">
             <label for="password_confirmation">Confirm Password:</label>
             <input type="password" id="password_confirmation" name="password_confirmation" required>
@@ -149,12 +188,12 @@
             </div>
 
             <div class="form-group">
-                <label for="relation">Emergency Contact Name:</label>
+                <label for="relation">Emergency Contact:</label>
                 <input type="text" id="relation_to_emergency" name="relation_to_emergency">
             </div>
 
             <div class="form-group">
-                <label for="emergency_contact">Emergency Contact Number:</label>
+                <label for="emergency_contact">Relation to Emergency Contact:</label>
                 <input type="tel" id="emergency_contact" name="emergency_contact">
             </div>
         </div>
@@ -165,22 +204,6 @@
         </div>
     </form>
 </div>
+
 </body>
 </html>
-
-
-<!--    FOR ADMIN
-            <div class="form-group">
-                <label for="group">Group:</label>
-                <input type="text" id="group" name="group">
-            </div>
-            <div class="form-group">
-                <label for="patient_id">Patient ID:</label>
-                <input type="text" id="patient_id" name="patient_id">
-            </div>
-            <div class="form-group">
-                <label for="admission_date">Admission Date:</label>
-                <input type="date" id="admission_date" name="admission_date">
-            </div>
-        </div>
--->

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,9 +8,10 @@
         /* General Styles */
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f7fc;
+            background: linear-gradient(to right, #7a6bcb, #6b9c8e); /* Blue-purple gradient */
             margin: 0;
             padding: 0;
+            color: #fff;
         }
 
         .container {
@@ -64,14 +64,14 @@
             padding: 10px 15px;
             font-size: 1em;
             color: #fff;
-            background-color: #007bff;
+            background-color: #5c6bc0; /* Primary button color */
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
 
         button:hover {
-            background-color: #0056b3;
+            background-color: #3f51b5; /* Darker shade for hover */
         }
 
         /* Table Styles */
@@ -89,6 +89,11 @@
 
         table th {
             background-color: #f4f7fc;
+            color: #333; /* Ensure the header text is dark for readability */
+        }
+
+        table td {
+            color: #333; /* Ensure the ID text is black and readable */
         }
 
         .btn {
@@ -100,33 +105,64 @@
         }
 
         .btn-primary {
-            background-color: #007bff;
+            background-color: #5c6bc0; /* Primary button */
         }
 
         .btn-primary:hover {
-            background-color: #0056b3;
+            background-color: #3f51b5;
         }
 
         .btn-warning {
-            background-color: #ff9800;
+            background-color: #ffa000; /* Warning button */
         }
 
         .btn-warning:hover {
-            background-color: #f57c00;
+            background-color: #ff8f00;
         }
 
         .btn-danger {
-            background-color: #f44336;
+            background-color: #f44336; /* Danger button */
         }
 
         .btn-danger:hover {
             background-color: #d32f2f;
+        }
+
+        /* Pagination Styling */
+        .pagination .page-link {
+            background-color: #5c6bc0;
+            border: 1px solid #5c6bc0;
+            color: white;
+        }
+
+        .pagination .page-link:hover {
+            background-color: #3f51b5;
+            border-color: #3f51b5;
+        }
+
+        .pagination .active .page-link {
+            background-color: #3f51b5;
+            border-color: #3f51b5;
+        }
+
+        /* Adjust Button Placement */
+        .btn-back {
+            background-color: #007bff;
+            margin-bottom: 20px; /* Add some space at the top */
+            display: inline-block;
+            text-align: center;
+            width: 200px; /* Fixed width for alignment */
+            margin-left: auto;
+            margin-right: auto;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
+    <!-- Moved the Back to Dashboard button to the top -->
+    <a href="{{ route('dashboard') }}" class="btn btn-back">Back to Dashboard</a>
+
     <h1>Create Role</h1>
 
     <!-- Display success message -->
@@ -189,8 +225,6 @@
         </tbody>
     </table>
 </div>
-
-<a href="{{ route('dashboard') }}" class="btn btn-danger">Back to Dashboard</a>
 
 </body>
 </html>

@@ -6,31 +6,111 @@
     <title>Missed Activities Report</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        .back-to-dashboard {
-            margin-top: 30px;
+        /* General Background and Body */
+        body {
+            background: linear-gradient(to right, #7a6bcb, #6b9c8e); /* Blueish purple gradient */
+            color: #fff;
+            font-family: Arial, sans-serif;
         }
-        .filter-form {
+
+        .container {
+            background-color: #fff;  /* White background for the report section */
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            margin-top: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
             margin-bottom: 30px;
         }
-        .form-row .col-md-3 {
-            margin-bottom: 15px;
+
+        .filter-form .form-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
+
+        .filter-form .form-control {
+            border-radius: 4px;
+        }
+
+        .filter-form .btn-primary {
+            background-color: #5c6bc0;
+            border: none;
+            font-size: 1.1rem;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+
+        .filter-form .btn-primary:hover {
+            background-color: #3f51b5;
+        }
+
+        .alert-warning {
+            background-color: #ffeb3b;
+            color: #333;
+            border-color: #f9e15c;
+            font-size: 1.1rem;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 30px;
+        }
+
+        .table {
+            width: 100%;
+            margin-top: 30px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
         .table th, .table td {
             text-align: center;
+            padding: 15px;
+            font-size: 1rem;
+        }
+
+        .table th {
+            background-color: #5c6bc0;
+            color: white;
+        }
+
+        .table td {
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        .btn-back {
+            background-color: #5c6bc0;
+            color: white;
+            border-radius: 5px;
+            padding: 10px 20px;
+            text-decoration: none;
+            font-size: 1rem;
+            display: inline-block;
+            margin-top: 30px;
+        }
+
+        .btn-back:hover {
+            background-color: #3f51b5;
         }
     </style>
 </head>
 <body>
 
-    <div class="container mt-4">
+    <div class="container">
         <!-- Report Title -->
-        <h1 class="text-center mb-4">Missed Activities Report</h1>
+        <h1>Missed Activities Report</h1>
 
-        <!-- Filter Form (aligned with space between input and button) -->
+        <!-- Filter Form -->
         <form method="GET" action="{{ route('admin.report') }}" class="filter-form">
-            <div class="form-row align-items-end">
+            <div class="form-row">
                 <div class="col-md-3">
-                    <label for="date">Filter by Date</label>
+                    <label for="date" class="d-block">Filter by Date</label>
                     <input type="date" class="form-control" name="date" value="{{ request()->input('date') }}">
                 </div>
                 <div class="col-md-2">
@@ -80,8 +160,8 @@
             </table>
         @endif
 
-        <!-- Back to Dashboard Button (More user-friendly spot) -->
-        <a href="{{ route('dashboard') }}" class="btn btn-primary back-to-dashboard">Back to Dashboard</a>
+        <!-- Back to Dashboard Button -->
+        <a href="{{ route('dashboard') }}" class="btn btn-back">Back to Dashboard</a>
     </div>
 
     <!-- Bootstrap JS (optional but recommended for responsive behavior) -->
