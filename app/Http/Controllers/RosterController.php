@@ -40,19 +40,27 @@ class RosterController extends Controller
             'caregiver_ids' => json_encode($request->caregiver_ids),  
         ]);
 
-        return redirect()->route('admin.rosters.index')->with('success', 'Roster created successfully!');
+        return redirect()->route('admin.rosters.create')->with('success', 'Roster created successfully!');
     }
 
     public function index(Request $request)
     {
         $query = Roster::with(['supervisor', 'doctor', 'caregivers']);
 
+        $query = Roster::query();
+    
+        $query->with(['supervisor', 'doctor']);
+    
+        $query->addSelect(['caregiver_ids']);
+
         if ($request->has('filter_date')) {
             $query->whereDate('date', $request->input('filter_date'));
         }
-
+    
+        // Fetch the rosters
         $rosters = $query->get();
-
         return view('rosterList', compact('rosters')); 
+
     }
 }
+

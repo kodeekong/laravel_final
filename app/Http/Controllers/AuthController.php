@@ -64,6 +64,7 @@ class AuthController extends Controller
         'date_of_birth' => 'required|date',
         'password' => 'required|string|min:4|confirmed', 
         'role' => 'required|string|in:Patient,Family Member,Admin,Supervisor,Doctor',
+
         'family_code' => 'nullable|string|max:50',
         'relation_to_emergency' => 'nullable|string|max:255',
         'emergency_contact' => 'nullable|string|max:15',
@@ -99,12 +100,30 @@ class AuthController extends Controller
             'doctor_id' => $user->role === 'Doctor' ? $roleId : null, 
             'caregiver_ids' => $user->role === 'Caregiver' ? json_encode([$roleId]) : null,
         ]);
+        $rosterData = [
+            'date' => now(), 
+        ];
+
+        if ($user->role === 'Supervisor') {
+            $rosterData['supervisor_id'] = $roleId;
+        }
+
+        if ($user->role === 'Doctor') {
+            $rosterData['doctor_id'] = $roleId;
+        }
+
+        if ($user->role === 'Caregiver') {
+            $rosterData['caregiver_ids'] = $roleId;
+        }
+
+        Roster::create($rosterData);
     }
 
     auth()->login($user);
 
     return redirect()->route('dashboard')->with('success', 'Registration successful!');
 }
+
 
 }
 ?>

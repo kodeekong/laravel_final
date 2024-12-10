@@ -102,6 +102,8 @@
                 <option value="Admin">Admin</option>
                 <option value="Supervisor">Supervisor</option>
                 <option value="Doctor">Doctor</option>
+                <option value="Caregiver">Caregiver</option>
+
             </select>
         </div>
 

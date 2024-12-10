@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use App\Models\Patients;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
 
 class PatientController extends Controller
 {
@@ -68,6 +70,7 @@ class PatientController extends Controller
                 'users.id',
                 \DB::raw("CONCAT(users.first_name, ' ', users.last_name) as name"), 
                 \DB::raw("TIMESTAMPDIFF(YEAR, users.date_of_birth, CURDATE()) as age"), 
+
                 'users.emergency_contact',
                 'users.relation_to_emergency',
                 'patients.admission_date',
@@ -75,11 +78,11 @@ class PatientController extends Controller
             );
         
         if ($request->filled('name')) {
-            $query->where(\DB::raw("CONCAT(users.first_name, ' ', users.last_name)"), 'like', '%' . $request->name . '%');
+            $query->where(DB::raw("CONCAT(users.first_name, ' ', users.last_name)"), 'like', '%' . $request->name . '%');
         }
         
         if ($request->filled('age')) {
-            $query->where(\DB::raw("TIMESTAMPDIFF(YEAR, users.date_of_birth, CURDATE())"), $request->age);
+            $query->where(DB::raw("TIMESTAMPDIFF(YEAR, users.date_of_birth, CURDATE())"), $request->age);
         }
         
         if ($request->filled('emergency_contact')) {
