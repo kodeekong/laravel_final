@@ -14,29 +14,26 @@
             <div class="col-md-6">
                 <h3>Upcoming Appointments</h3>
                 <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Patient</th>
-                            <th>Date</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    @foreach ($upcomingAppointments as $appointment)
-                        <tr>
-                            <td>
-                                {{ $appointment->patient->user->first_name ?? 'N/A' }} 
-                                {{ $appointment->patient->user->last_name ?? 'N/A' }}
-                            </td>
-                            <td>{{ \Carbon\Carbon::parse($appointment->date)->format('Y-m-d ') }}</td>
-                            <td>
-                                <a href="{{ route('doctor.viewPatient', $appointment->patient->patient_id) }}" class="btn btn-info">View</a>
-                            </td>
-                        </tr>
-                    @endforeach
+    <thead>
+        <tr>
+            <th>Patient</th>
+            <th>Date</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($upcomingAppointments as $appointment)
+            <tr>
+                <td>{{ $appointment->patient->user->first_name }} {{ $appointment->patient->user->last_name }}</td>
+                <td>{{ \Carbon\Carbon::parse($appointment->date)->format('Y-m-d H:i') }}</td>
+                <td>
+                    <a href="{{ route('doctor.viewPatient', $appointment->patient->patient_id) }}" class="btn btn-info">View</a>
+                </td>
+            </tr>
+        @endforeach
+    </tbody>
+</table>
 
-                    </tbody>
-                </table>
             </div>
 
             <div class="col-md-6">
@@ -51,12 +48,13 @@
                     <tbody>
                         @foreach ($completedAppointments as $appointment)
                             <tr>
-                                <td>{{ $appointment->patient->name }}</td>
+                                <td>{{ $appointment->patient->user->first_name }} {{ $appointment->patient->user->last_name }}</td>
                                 <td>{{ \Carbon\Carbon::parse($appointment->date)->format('Y-m-d H:i') }}</td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
+
             </div>
         </div>
 
