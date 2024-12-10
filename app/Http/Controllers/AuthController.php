@@ -36,16 +36,28 @@ class AuthController extends Controller
     }
 
     public function login(Request $request)
-    {
-        $credentials = $request->only('email', 'password');
-        if (Auth::attempt($credentials)) {
-            return redirect()->route('dashboard')->with('success', 'Log in successful!');
+{
+    $credentials = $request->only('email', 'password');
+
+    // Attempt to authenticate the user
+    if (Auth::attempt($credentials)) {
+        // Get the authenticated user
+        $user = auth()->user();
+
+        // Check the role of the user and redirect accordingly
+        if ($user->role === 'Patient') {
+            return redirect()->route('patient.home')->with('success', 'Patient login successful!');
         }
 
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ]);
+        // Default redirect for other roles
+        return redirect()->route('dashboard')->with('success', 'Login successful!');
     }
+
+    // If authentication fails, return back with an error
+    return back()->withErrors([
+        'email' => 'The provided credentials do not match our records.',
+    ]);
+}
 
     public function logout()
     {

@@ -4,7 +4,97 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patient Additional Information</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* General Background and Body */
+        body {
+            background: linear-gradient(to right, #7a6bcb, #6b9c8e); /* Blue-purple gradient */
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            background-color: #fff; /* White background for the report section */
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            margin-top: 20px;
+        }
+
+        h2 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background-color: #5c6bc0;
+            border: none;
+            font-size: 1rem;
+            padding: 8px 15px;
+            border-radius: 5px;
+        }
+
+        .btn-primary:hover {
+            background-color: #3f51b5;
+        }
+
+        .btn-success {
+            background-color: #4caf50;
+            border: none;
+            padding: 8px 15px;
+            font-size: 1rem;
+            border-radius: 5px;
+        }
+
+        .btn-success:hover {
+            background-color: #388e3c;
+        }
+
+        .btn-danger {
+            background-color: #d9534f;
+            border: none;
+            padding: 8px 15px;
+            font-size: 1rem;
+            border-radius: 5px;
+        }
+
+        .btn-danger:hover {
+            background-color: #c9302c;
+        }
+
+        /* Spacing adjustments for buttons */
+        .btn {
+            margin-bottom: 10px; /* Added vertical margin between buttons */
+        }
+
+        /* Form and Input Styling */
+        .form-group label {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group .form-control {
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        .form-control:focus {
+            border-color: #5c6bc0;
+            box-shadow: 0 0 8px rgba(92, 107, 192, 0.5);
+        }
+
+        /* Error Message Styling */
+        .text-danger {
+            color: #f44336;
+            font-size: 0.9rem;
+        }
+
+    </style>
 </head>
 <body>
 
@@ -18,6 +108,7 @@
         <div class="alert alert-danger">{{ session('error') }}</div>
     @endif
 
+    <!-- Back to Dashboard Button -->
     <a href="{{ route('dashboard') }}" class="btn btn-primary mb-3">Back to Dashboard</a>
 
     <!-- Patient ID Input for fetching Patient Data -->
@@ -65,6 +156,7 @@
                 @enderror
             </div>
 
+            <!-- Save and Cancel Buttons -->
             <div class="form-group">
                 <button type="submit" class="btn btn-success">Save</button>
                 <a href="{{ route('dashboard') }}" class="btn btn-danger">Cancel</a>
@@ -73,5 +165,7 @@
     @endisset
 </div>
 
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

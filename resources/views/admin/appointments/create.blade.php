@@ -5,6 +5,79 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Appointment</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* General Background and Body */
+        body {
+            background: linear-gradient(to right, #7a6bcb, #6b9c8e); /* Blueish purple gradient */
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            background-color: #fff;  /* White background for the report section */
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            margin-top: 20px;
+        }
+
+        h2 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .btn-primary {
+            background-color: #5c6bc0;
+            border: none;
+            font-size: 1.1rem;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+
+        .btn-primary:hover {
+            background-color: #3f51b5;
+        }
+
+        .btn-success {
+            background-color: #4caf50;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+
+        .btn-success:hover {
+            background-color: #388e3c;
+        }
+
+        .form-group label {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group .form-control {
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        .form-control:focus {
+            border-color: #5c6bc0;
+            box-shadow: 0 0 8px rgba(92, 107, 192, 0.5);
+        }
+
+        .form-group select {
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        .form-group select:focus {
+            border-color: #5c6bc0;
+            box-shadow: 0 0 8px rgba(92, 107, 192, 0.5);
+        }
+    </style>
 </head>
 <body>
 

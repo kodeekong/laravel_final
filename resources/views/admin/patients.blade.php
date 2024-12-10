@@ -5,11 +5,103 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>List of Patients</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Body Styles */
+        body {
+            background: linear-gradient(to right, #7a6bcb, #6b9c8e); /* Purple gradient background */
+            color: #fff;
+            font-family: Arial, sans-serif;
+            padding-top: 20px;
+        }
+
+        /* Container Styles */
+        .container {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            max-width: 1100px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Form Controls (Input fields) */
+        .form-control {
+            height: 38px;
+            border-radius: 5px;
+            background-color: #fff;
+            color: #333;
+            border: 1px solid #5c6bc0; /* Purple border */
+        }
+
+        .form-control:focus {
+            border-color: #3f51b5; /* Darker purple on focus */
+            box-shadow: 0 0 5px rgba(63, 81, 181, 0.5);
+        }
+
+        /* Button Styles */
+        .btn-primary {
+            background-color: #5c6bc0;
+            border-color: #5c6bc0;
+            padding: 12px 20px;
+            border-radius: 5px;
+        }
+
+        .btn-primary:hover {
+            background-color: #3f51b5;
+            border-color: #3f51b5;
+        }
+
+        .btn-danger {
+            background-color: #e74c3c;
+            border-color: #e74c3c;
+            padding: 12px 20px;
+            border-radius: 5px;
+        }
+
+        .btn-danger:hover {
+            background-color: #c0392b;
+            border-color: #c0392b;
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table th, table td {
+            text-align: center;
+            padding: 10px;
+        }
+
+        table th {
+            background-color: #5c6bc0;
+            color: #fff;
+        }
+
+        table td {
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        /* Pagination styles */
+        .pagination {
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .form-group {
+            color:black;
+        }
+    </style>
 </head>
 <body>
+
 <div class="container mt-5">
     <h2>List of Patients</h2>
 
+    <!-- Search Form -->
     <form method="GET" action="{{ route('admin.patients.index') }}" class="mb-4">
         <div class="form-row">
             <div class="form-group col-md-3">
@@ -34,6 +126,7 @@
         </div>
     </form>
 
+    <!-- Patients Table -->
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
@@ -62,12 +155,17 @@
             @endforelse
         </tbody>
     </table>
-    <a href="{{ route('dashboard') }}" class="btn btn-danger">Back to dashboard</a>
 
+    <!-- Back to Dashboard Button -->
+    <a href="{{ route('dashboard') }}" class="btn btn-danger">Back to Dashboard</a>
 
-    <div class="d-flex justify-content-center">
+    <!-- Pagination Links -->
+    <div class="d-flex justify-content-center mt-4">
         {{ $patients->links() }}
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
