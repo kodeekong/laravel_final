@@ -132,7 +132,7 @@
             <div class="nav-links">
                 @if(auth()->check() && (auth()->user()->role === 'Admin' || auth()->user()->role === 'Supervisor'))
                     <a href="{{ route('admin.approvals') }}" class="btn btn-custom">Go to Approval Page</a>
-                    <a href="{{ route('admin.report') }}" class="btn btn-custom">Missed Activities Report</a>
+                    <!-- <a href="{{ route('admin.report') }}" class="btn btn-custom">Missed Activities Report</a> -->
                     <a href="{{ route('appointments.create') }}" class="btn btn-custom">Create Appointment</a>
                     <a href="{{ route('admin.employees') }}" class="btn btn-custom">Employee Salaries</a>
                     <a href="{{ route('admin.additional_info', ['patient_id' => 1]) }}" class="btn btn-custom">Patient Information</a>
